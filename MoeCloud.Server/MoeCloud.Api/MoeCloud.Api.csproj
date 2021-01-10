@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MySql.Data" Version="8.0.22" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MoeCloud.Common\MoeCloud.Common.csproj" />
+    <ProjectReference Include="..\MoeCloud.Data\MoeCloud.Data.csproj" />
+    <ProjectReference Include="..\MoeCloud.Dto\MoeCloud.Dto.csproj" />
+    <ProjectReference Include="..\MoeCloud.ILogic\MoeCloud.ILogic.csproj" />
+    <ProjectReference Include="..\MoeCloud.Logic\MoeCloud.Logic.csproj" />
+    <ProjectReference Include="..\MoeCloud.Model\MoeCloud.Model.csproj" />
+  </ItemGroup>
+
+</Project>
