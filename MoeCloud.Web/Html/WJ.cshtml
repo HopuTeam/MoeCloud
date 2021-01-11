@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>WJ</title>
+</head>
+<body>
+    <input type="file" name="file" webkitdirectory>
+    <button id="upload" type="button" onclick="Upload()">上传</button>
+    <script src="~/jquery-3.5.1.min.js"></script>
+    <script>
+        var files = [];
+        $(document).ready(function () {
+            $('input').change(function () {
+                files = this.files;
+            })
+        });
+
+        function Upload() {
+            var data = new FormData();
+            if (data == null) {
+                alert("不能上传空文件夹！");
+            } else {
+                for (var i = 0; i < files.length; i++) {
+                    data.append('file', files[i]);
+                }
+                //var path = files[0].webkitRelativePath;
+                $.ajax({
+                    type: "post",
+                    url: "/home/UpLoad",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        alert(data.success);
+                    }
+                })
+            }
+           
+        }
+    </script>
+</body>
+</html>
