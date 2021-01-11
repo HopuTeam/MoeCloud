@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace MoeCloud.Model
 {
     public class Mail
     {
+        [Key]
+        public int ID { get; set; }
         //SMTP地址
         public string Host { get; set; }
         //STMP账号/发件人邮箱

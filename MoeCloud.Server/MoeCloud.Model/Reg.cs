@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace MoeCloud.Model
 {
     public class Reg
     {
+        [Key]
+        public int ID { get; set; }
         //是否开启注册功能
         public bool AllowReg { get; set; }
         //是否开启邮件激活功能

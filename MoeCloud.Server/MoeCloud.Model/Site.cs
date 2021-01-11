@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace MoeCloud.Model
 {
     public class Site
     {
+        [Key]
+        public int ID { get; set; }
         //主标题
         public string MainTitle { get; set; }
         //副标题

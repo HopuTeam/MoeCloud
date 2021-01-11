@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MoeCloud.Data
 {
@@ -33,23 +31,23 @@ namespace MoeCloud.Data
                 {
                     ID = 2,
                     Name = "注册用户",
-                    MaxSize = 8589934592,
+                    MaxSize = 8589934592,//1G，以B为单位
                     Status = true
                 });
                 context.Roles.Add(new Model.Role()
                 {
                     ID = 1,
                     Name = "管理员",
-                    MaxSize = 8589934592,
+                    MaxSize = 8589934592,//1G
                     Status = true
                 });
                 context.Sites.Add(new Model.Site()
                 {
-                    MainTitle = "",
-                    SecTitle = "",
-                    Description = "",
-                    Url = "",
-                    Script = "",
+                    MainTitle = "MoeCloud",
+                    SecTitle = "轻松上云",
+                    Description = "MoeCloud是一个基于.Net5开发的轻量级企业云盘",
+                    //Url = "",
+                    //Script = "",
                 });
                 context.Regs.Add(new Model.Reg()
                 {
@@ -64,11 +62,11 @@ namespace MoeCloud.Data
                     Host = "smtp.ym.163.com",
                     Account = "work@echocode.club",
                     Password = "9qC3uNQJRy",
-                    Port=994,
+                    Port = 994,
                     From = "work@echocode.club",
-                    SSL=true,
-                    ActiveModel = "",
-                    ResetModel = "",
+                    SSL = true,
+                    //ActiveModel = "",
+                    //ResetModel = "",
                 });
             }
         }
