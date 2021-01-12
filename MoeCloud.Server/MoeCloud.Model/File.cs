@@ -16,7 +16,7 @@ namespace MoeCloud.Model
         //上级目录ID
         public int ParentID { get; set; }
         //用户ID
-        public int SignID { get; set; }
+        public int UserID { get; set; }
         //文件上传时间
         public DateTime AddTime { get; set; }
         //文件状态/是否删除

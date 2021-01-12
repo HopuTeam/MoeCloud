@@ -18,6 +18,8 @@ namespace MoeCloud.Data
                     Account = "admin",
                     Password = "E1ADC3949BA59ABBE56E057F2F883E",//MD5(123456),
                     UseSize = 0,
+                    Status = true,
+                    Active = true,
                     RoleID = 1
                 });
                 context.Roles.Add(new Model.Role()
@@ -31,15 +33,21 @@ namespace MoeCloud.Data
                 {
                     ID = 2,
                     Name = "注册用户",
-                    MaxSize = 8589934592,//1G，以B为单位
-                    Status = true
+                    MaxSize = 1073741824,//1G，以B为单位
+                    Status = true,
+                    Speed = 1048576,
+                    Bundle = true,
+                    Release = true
                 });
                 context.Roles.Add(new Model.Role()
                 {
                     ID = 1,
                     Name = "管理员",
-                    MaxSize = 8589934592,//1G
-                    Status = true
+                    MaxSize = 1073741824,//1G
+                    Status = true,
+                    Speed = 1073741824,
+                    Bundle = true,
+                    Release = true
                 });
                 context.Sites.Add(new Model.Site()
                 {

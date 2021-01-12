@@ -19,7 +19,9 @@ namespace MoeCloud.Model
         public long UseSize { get; set; }
         //注册时间
         public DateTime EntryTime { get; set; }
-        //账号激活状态
+        //帐号状态(是否通过邮箱验证)
+        public bool Active { get; set; }
+        //账号状态(是否封禁)
         public bool Status { get; set; }
         //角色ID，默认2
         public int RoleID { get; set; }

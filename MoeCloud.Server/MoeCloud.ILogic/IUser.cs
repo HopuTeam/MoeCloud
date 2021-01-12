@@ -6,6 +6,11 @@ namespace MoeCloud.ILogic
 {
     public interface IUser
     {
-        Model.User GetSign(Model.User user);
+        Model.User Sign(Model.User user);
+        List<Model.User> GetUsers();
+        bool RestPassword(int id, string password);
+        Model.User GetUser(int id, string account, string email);
+        bool DelUser(int id);
+        bool AddUser(Model.User user);
     }
 }
