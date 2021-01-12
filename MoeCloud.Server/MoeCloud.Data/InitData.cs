@@ -68,6 +68,7 @@ namespace MoeCloud.Data
                     //ActiveModel = "",
                     //ResetModel = "",
                 });
+                context.SaveChanges();
             }
         }
     }

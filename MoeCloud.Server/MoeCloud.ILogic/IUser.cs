@@ -6,5 +6,6 @@ namespace MoeCloud.ILogic
 {
     public interface IUser
     {
+        Model.User GetSign(Model.User user);
     }
 }
