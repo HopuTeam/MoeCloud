@@ -26,6 +26,13 @@ namespace MoeCloud.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            //设置接收文件长度的最大值。
+            services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(x =>
+            {
+                x.ValueLengthLimit = int.MaxValue;
+                x.MultipartBodyLengthLimit = int.MaxValue;
+                x.MultipartHeadersLengthLimit = int.MaxValue;
+            });
             services.AddCors(options =>
             {
                 options.AddPolicy("Cors", Tion =>
