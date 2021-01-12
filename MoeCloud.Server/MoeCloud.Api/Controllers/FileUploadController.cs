@@ -29,7 +29,7 @@ namespace MoeCloud.Api.Controllers
         {
             var files = Request.Form.Files;
             long Size = files.Sum(f => f.Length);//计算文件大小
-            string rootpath = Env.ContentRootPath + @"/wwwroot/Upload/测试/"; ; //获取根目录
+            string rootpath = Env.ContentRootPath + @"/Upload/测试/"; ; //获取根目录
             try
             {
                 foreach (var file in files)
@@ -91,6 +91,5 @@ namespace MoeCloud.Api.Controllers
                 Directory.CreateDirectory(path);
             }
         }
-
     }
 }

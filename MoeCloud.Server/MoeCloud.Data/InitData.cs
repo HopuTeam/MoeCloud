@@ -16,7 +16,7 @@ namespace MoeCloud.Data
                 {
                     Email = "admin@admin.com",
                     Account = "admin",
-                    Password = "E1ADC3949BA59ABBE56E057F2F883E",// MD5(123456),
+                    Password = "E1ADC3949BA59ABBE56E057F2F883E",//MD5(123456),
                     UseSize = 0,
                     RoleID = 1
                 });

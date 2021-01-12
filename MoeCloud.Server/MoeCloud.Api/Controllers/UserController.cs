@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MoeCloud.Api.Controllers
 {
     [ApiController]
-    [Route("Api/[Controller]/[Action]")]
+    [Route("[Controller]/[Action]")]
     public class UserController : Controller
     {
         public IActionResult Index()

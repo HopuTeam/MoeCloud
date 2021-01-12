@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MoeCloud.Common
 {
-    public class MailHelper
+    public static class MailHelper
     {
         /// <summary>
         /// 邮件发送
@@ -18,24 +18,23 @@ namespace MoeCloud.Common
         /// <param name="toMail">收件地址</param>
         /// <param name="title">邮件标题</param>
         /// <param name="content">邮件内容(可包含HTML)</param>
-        /// <returns>返回是否成功</returns>
+        /// <returns>是否成功</returns>
         public static bool SendMail(string host, string account, string password, int port, string from, bool ssl, string toMail, string title, string content)
         {
             try
             {
                 SmtpClient client = new SmtpClient
                 {
-                    //Host = "smtp.ym.163.com",//设置SMTP地址
-                    Host = host,//设置SMTP地址
+                    Host = host,
                     UseDefaultCredentials = true,
                     Port = port,
                     EnableSsl = ssl,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
-                    Credentials = new NetworkCredential(account, password)//发件人的邮箱和SMTP密码
+                    Credentials = new NetworkCredential(account, password)
                 };
                 MailMessage Message = new MailMessage
                 {
-                    From = new MailAddress(from)//发信邮箱用户名，一般与邮箱地址相同
+                    From = new MailAddress(from)
                 };
                 Message.To.Add(toMail);//要发送的地址
                 Message.Subject = title;//标题
