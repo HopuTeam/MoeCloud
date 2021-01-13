@@ -43,7 +43,7 @@ namespace MoeCloud.Api
                     Tion.AllowAnyMethod();
                 });
             });
-            // 注册数据库连接字符串
+            // 数据库连接字符串
             services.AddDbContext<Data.CoreEntities>(options =>
             {
                 options.UseMySQL(Configuration.GetConnectionString("EFDbConnection"));
@@ -53,13 +53,14 @@ namespace MoeCloud.Api
             {
                 //options.Filters.Add<ErrorFilter>();
             });
-            // 注册逻辑层注入
+            // 业务逻辑层注入
             services.AddScoped<ILogic.ICommon, Logic.CommonLogic>();
             services.AddScoped<ILogic.IUser, Logic.UserLogic>();
             services.AddScoped<ILogic.IRole, Logic.RoleLogic>();
             services.AddScoped<ILogic.ISite, Logic.SiteLogic>();
             services.AddScoped<ILogic.IReg, Logic.RegLogic>();
             services.AddScoped<ILogic.IMail, Logic.MailLogic>();
+            services.AddScoped<ILogic.IShare, Logic.ShareLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
