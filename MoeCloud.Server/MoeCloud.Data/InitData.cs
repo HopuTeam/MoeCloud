@@ -20,7 +20,8 @@ namespace MoeCloud.Data
                     UseSize = 0,
                     Status = true,
                     Active = true,
-                    RoleID = 1
+                    RoleID = 1,
+                    EntryTime = DateTime.Now
                 });
                 context.Roles.Add(new Model.Role()
                 {

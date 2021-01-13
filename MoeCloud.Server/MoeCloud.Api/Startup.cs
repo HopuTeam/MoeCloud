@@ -26,13 +26,14 @@ namespace MoeCloud.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            //设置接收文件长度的最大值。
+            // 设置接收文件长度的最大值
             services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(x =>
             {
                 x.ValueLengthLimit = int.MaxValue;
                 x.MultipartBodyLengthLimit = int.MaxValue;
                 x.MultipartHeadersLengthLimit = int.MaxValue;
             });
+            // 注册跨域服务
             services.AddCors(options =>
             {
                 options.AddPolicy("Cors", Tion =>
@@ -42,19 +43,23 @@ namespace MoeCloud.Api
                     Tion.AllowAnyMethod();
                 });
             });
+            // 注册数据库连接字符串
             services.AddDbContext<Data.CoreEntities>(options =>
             {
                 options.UseMySQL(Configuration.GetConnectionString("EFDbConnection"));
             });
+            // 注册全局过滤器
             services.AddControllers(options =>
             {
                 //options.Filters.Add<ErrorFilter>();
             });
+            // 注册逻辑层注入
             services.AddScoped<ILogic.ICommon, Logic.CommonLogic>();
             services.AddScoped<ILogic.IUser, Logic.UserLogic>();
             services.AddScoped<ILogic.IRole, Logic.RoleLogic>();
             services.AddScoped<ILogic.ISite, Logic.SiteLogic>();
             services.AddScoped<ILogic.IReg, Logic.RegLogic>();
+            services.AddScoped<ILogic.IMail, Logic.MailLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

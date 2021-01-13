@@ -71,11 +71,86 @@ namespace MoeCloud.Logic
                 return false;
         }
 
-        //Edit a user
-        //public bool EditUser(Model.User user)
-        //{
-        //    var mod = EF.Users.FirstOrDefault(x => x.ID == user.ID);
-        //    mod.
-        //}
+        // Edit user info
+        public bool EditUser(Model.User user)
+        {
+            var mod = EF.Users.FirstOrDefault(x => x.ID == user.ID);
+            if (user.Email != null && mod.Email != user.Email)
+            {
+                mod.Email = user.Email;
+                mod.Active = false;
+            }
+            if (user.Account != null)
+                mod.Account = user.Account;
+            if (EF.SaveChanges() > 0)
+                return true;
+            else
+                return false;
+        }
+
+        //update useSize
+        public bool UpdateUseSize(int id, long useSize)
+        {
+            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+            mod.UseSize = useSize;
+            if (EF.SaveChanges() > 0)
+                return true;
+            else
+                return false;
+        }
+
+        //change role
+        public bool ChangeRole(int id, int roleID)
+        {
+            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+            mod.RoleID = roleID;
+            if (EF.SaveChanges() > 0)
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// 改变账户的邮箱激活状态(用于修改绑定邮箱、注册用户等)
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        public bool ChangeActive(int id)
+        {
+            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+            if (mod.Active)
+                mod.Active = false;
+            else
+                mod.Active = true;
+            if (EF.SaveChanges() > 0)
+                return true;
+            else
+                return false;
+        }
+
+        // (封禁/解封)帐户
+        public bool SwichStatus(int id)
+        {
+            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+            if (mod.Status)
+                mod.Status = false;
+            else
+                mod.Status = true;
+            if (EF.SaveChanges() > 0)
+                return true;
+            else
+                return false;
+        }
+
+        // Edit password
+        public bool EditPassword(int id, string password)
+        {
+            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+            mod.Password = Common.Security.MD5Encrypt32(password);
+            if (EF.SaveChanges() > 0)
+                return true;
+            else
+                return false;
+        }
     }
 }

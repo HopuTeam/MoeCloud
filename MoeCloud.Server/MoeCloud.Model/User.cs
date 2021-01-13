@@ -23,7 +23,7 @@ namespace MoeCloud.Model
         public bool Active { get; set; }
         //账号状态(是否封禁)
         public bool Status { get; set; }
-        //角色ID，默认2
+        //角色ID，默认2(注册用户)
         public int RoleID { get; set; }
     }
 }

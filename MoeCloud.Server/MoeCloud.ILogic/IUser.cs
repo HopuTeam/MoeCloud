@@ -12,5 +12,11 @@ namespace MoeCloud.ILogic
         Model.User GetUser(int id, string account, string email);
         bool DelUser(int id);
         bool AddUser(Model.User user);
+        bool EditUser(Model.User user);
+        bool UpdateUseSize(int id, long useSize);
+        bool ChangeRole(int id, int roleID);
+        bool ChangeActive(int id);
+        bool SwichStatus(int id);
+        bool EditPassword(int id, string password);
     }
 }
