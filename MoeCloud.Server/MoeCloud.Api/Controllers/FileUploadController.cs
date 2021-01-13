@@ -95,7 +95,7 @@ namespace MoeCloud.Api.Controllers
         #endregion
 
         #region 分片上传
-        //[HttpPost]
+        [HttpPost]
         public IActionResult Upload()
         {
             //string fileName = Request.Form["name"];
@@ -112,17 +112,14 @@ namespace MoeCloud.Api.Controllers
             }
             return Ok(new { error = 0 });
         }
+
+        [HttpPost]
         public IActionResult Merge()
         {
-            string rootpath = Env.ContentRootPath + @"/Upload/测试/"; ; //获取根目录
-            var guid = Request.Form["guid"];//GUID
-            var uploadDir = rootpath;//Upload 文件夹
-            var dir = Path.Combine(uploadDir, guid);//临时文件夹
-            var fileName = Request.Form["fileName"];//文件名
-            var files = Directory.GetFiles(dir);//获得下面的所有文件
-            var finalPath = Path.Combine(uploadDir, fileName);//最终的文件名（demo中保存的是它上传时候的文件名，实际操作肯定不能这样）
-            var fs = new FileStream(finalPath, FileMode.Create);
-            foreach (var part in files.OrderBy(x => x.Length).ThenBy(x => x))//排一下序，保证从0-N Write
+            var uploadDir = Env.ContentRootPath + @"/Upload/测试/";//Upload 文件夹
+            var dir = Path.Combine(uploadDir, Request.Form["guid"]);//临时文件夹
+            var fs = new FileStream(Path.Combine(uploadDir, Request.Form["fileName"]), FileMode.Create);
+            foreach (var part in Directory.GetFiles(dir).OrderBy(x => x.Length).ThenBy(x => x))//排一下序，保证从0-N Write
             {
                 var bytes = System.IO.File.ReadAllBytes(part);
                 fs.Write(bytes, 0, bytes.Length);
@@ -131,10 +128,9 @@ namespace MoeCloud.Api.Controllers
             }
             fs.Flush();
             fs.Close();
-            System.IO.Directory.Delete(dir);//删除文件夹
+            Directory.Delete(dir);//删除文件夹
             return Ok(new { error = 0 });//随便返回个值，实际中根据需要返回
         }
-
         #endregion
 
     }
