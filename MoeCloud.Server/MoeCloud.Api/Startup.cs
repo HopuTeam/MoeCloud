@@ -61,6 +61,7 @@ namespace MoeCloud.Api
             services.AddScoped<ILogic.IReg, Logic.RegLogic>();
             services.AddScoped<ILogic.IMail, Logic.MailLogic>();
             services.AddScoped<ILogic.IShare, Logic.ShareLogic>();
+            services.AddScoped<ILogic.IFile, Logic.FileLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
