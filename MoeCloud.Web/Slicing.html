@@ -16,6 +16,7 @@
             <button id="ctlBtn" class="btn btn-default">开始上传</button>
         </div>
     </div>
+    <button id="jwt" >访问Api</button>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/webuploader/webuploader.min.js"></script>
     <script>
@@ -117,9 +118,9 @@
                     chunked: true,
                     chunkSize: 10 * 1024 * 1024,
                     chunkRetry: 5
-                    //, formData: {
-                    //    guid: GUID
-                    //}
+                    , formData: {
+                       guid: GUID
+                    }
                 });
                 uploader.on('beforeFileQueued', function (file) {
                     var isAdd = false;
@@ -219,7 +220,17 @@
 
 
         });
-       
+       $('#jwt').click(function () {
+          $.ajax({
+              url:'https://localhost:44393/FileUpload/JwtYz',
+              type: "Post",
+              contentType: "application/json",
+              data: JSON.stringify(12),
+              success:function(res){
+                  console.log(res);
+              }
+          })
+       })
     </script>
 
 </body>

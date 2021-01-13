@@ -17,7 +17,7 @@ namespace MoeCloud.Common
             try
             {
                 string result = string.Empty;
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);              
                 request.Method = "GET";
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 Stream stream = response.GetResponseStream();
@@ -42,14 +42,15 @@ namespace MoeCloud.Common
         /// <param name="data">需要发送的数据{a={1}&b={2}}或{\"a\":1,\"b\":2}</param>
         /// <param name="contentType">内容类型{application/json}</param>
         /// <returns></returns>
-        public static string HttpPost(string url, string data, string contentType = "application/x-www-form-urlencoded")
+        public static string HttpPost(string url, string data,string token, string contentType = "application/x-www-form-urlencoded")
         {
             try
             {
                 string result = string.Empty;
                 byte[] bytes = Encoding.Default.GetBytes(data);
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);                
                 request.Method = "POST";
+                request.Headers.Add("Authorized", token);
                 request.ContentType = contentType;
                 request.ContentLength = bytes.Length;
                 Stream requestStream = request.GetRequestStream();

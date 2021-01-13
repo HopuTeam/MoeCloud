@@ -57,10 +57,13 @@
             $("#uploader .progress-bar").text(parseInt(percentage * 100) + '%');
         });
         uploader.on('uploadSuccess', function (file) {
+            console.log(file);
             $.post('https://localhost:44393/FileUpload/Merge', { guid: GUID, fileName: file.name }, function (data) {
                 $("#uploader .progress-bar").removeClass('progress-bar-striped').removeClass('active').removeClass('progress-bar-info').addClass('progress-bar-success');
                 $("#uploader .state").html("上传成功...");
             });
+           
+
         });
         uploader.on('uploadError', function () {
             $("#uploader .progress-bar").removeClass('progress-bar-striped').removeClass('active').removeClass('progress-bar-info').addClass('progress-bar-danger');
