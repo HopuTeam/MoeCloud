@@ -19,14 +19,15 @@ namespace MoeCloud.Api.Controllers
     public class FileUploadController : ControllerBase
     {
         private readonly JwtHelper jwt;
-        private readonly IFileUploadBLL fileUpload;
+        private readonly IFile file;
 
-        public IWebHostEnvironment Env { get; }     
-        public FileUploadController(IWebHostEnvironment env, Handler.JwtHelper jwt, ILogic.IFileUploadBLL fileUpload)
+        public IWebHostEnvironment Env { get; }
+
+        public FileUploadController(IWebHostEnvironment env, JwtHelper jwt, IFile file)
         {
             Env = env;
             this.jwt = jwt;
-            this.fileUpload = fileUpload;
+            this.file = file;
         }
 
         #region 文件夹上传
@@ -187,25 +188,55 @@ namespace MoeCloud.Api.Controllers
         [HttpPost]      
         public ActionResult Upload()
         {
-            string rootpath = Env.ContentRootPath + @"/Upload/测试/"; ; //获取根目录       
+            //string fileName = Request.Form["name"];
             int index = Convert.ToInt32(Request.Form["chunk"]);//当前分块序号
-            var guid = Request.Form["guid"];//前端传来的GUID号      
-            var data = Request.Form.Files["file"];//表单中取得分块文件   
-            
-            int a= fileUpload.Upload(rootpath, index, guid, data);
-            return Ok(new { count = a });
+            var guid = Request.Form["guid"];//前端传来的GUID号
+            var dir = $"{ Env.ContentRootPath }/Upload/测试/{ guid }/";//临时保存分块的目录
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            string filePath = dir + index.ToString();//分块文件名为索引名，更严谨一些可以加上是否存在的判断，防止多线程时并发冲突
+            var data = Request.Form.Files["file"];//表单中取得分块文件
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                data.CopyTo(stream);
+            }
+            return Ok(new { error = 0 });
         }
               
         public ActionResult Merge()
         {
-            string rootpath = Env.ContentRootPath + @"/Upload/测试/"; ; //获取根目录
-            var guid = Request.Form["guid"];//GUID      
-            var fileName = Request.Form["fileName"];//文件名     
+            var uploadDir = Env.ContentRootPath + @"/Upload/测试/";//Upload 文件夹
+            var dir = Path.Combine(uploadDir, Request.Form["guid"]);//临时文件夹
+            string  fileName = Request.Form["fileName"];
+            var fs = new FileStream(Path.Combine(uploadDir, fileName), FileMode.Create);
+            foreach (var part in Directory.GetFiles(dir).OrderBy(x => x.Length).ThenBy(x => x))//排一下序，保证从0-N Write
+            {
+                var bytes = System.IO.File.ReadAllBytes(part);
+                fs.Write(bytes, 0, bytes.Length);
+                bytes = null;
+                System.IO.File.Delete(part);//删除分块
+            }
+            long size = fs.Length;
+           
+            fs.Flush();
+            fs.Close();
+            Directory.Delete(dir);//删除文件夹
+            //Model.File aa=new Model.File
+            //{
+            //    Name= fileName,
+            //     Size= size,
+            //      UserID=1,
+            //      Path= uploadDir,
+            //       ParentID
+            //}
 
-            fileUpload.Merge(rootpath, guid, fileName);
             return Ok(new { error = 0 });//随便返回个值，实际中根据需要返回
         }
         #endregion
+
+
+
+
         [AllowAnonymous]//跳过Jwt验证     
         public ActionResult JwtYz([FromBody] int id = 1)
         {
