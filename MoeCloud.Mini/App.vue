@@ -1,4 +1,7 @@
 <script>
+	import {
+		mapMutations
+	} from 'vuex'
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
