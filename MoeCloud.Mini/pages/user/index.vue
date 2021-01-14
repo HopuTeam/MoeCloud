@@ -2,10 +2,7 @@
 	<view class="content">
 		<image class="logo" src="/static/logo.png"></image>
 		<view class="text-area">
-			<text class="title">{{info}}</text>
-		</view>
-		<view>
-
+			<text class="title">{{title}}</text>
 		</view>
 	</view>
 </template>
@@ -14,7 +11,7 @@
 	export default {
 		data() {
 			return {
-				info: 'This is MoeCloud!'
+				title: 'Hello'
 			}
 		},
 		onLoad() {

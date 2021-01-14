@@ -63,6 +63,12 @@ namespace MoeCloud.Logic
                 return false;
         }
 
+        // 通过实际虚路径查找文件信息
+        public Model.File DirFind(string dir)
+        {
+            return EF.Files.FirstOrDefault(x => x.Path == dir);
+        }
+
         /// <summary>
         /// 用户查询自己的文件列表
         /// </summary>

@@ -14,5 +14,6 @@ namespace MoeCloud.ILogic
         List<Model.File> GetCycleFiles(int userID);
         List<Model.File> GetAllFiles();
         bool EditPath(int id, string path);
+        Model.File DirFind(string dir);
     }
 }
