@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Upload\" />
+    <Folder Include="Upload\测试\" />
   </ItemGroup>
 
 </Project>

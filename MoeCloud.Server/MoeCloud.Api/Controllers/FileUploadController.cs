@@ -36,7 +36,8 @@ namespace MoeCloud.Api.Controllers
         public IActionResult UpLoadOne()
         {
             var files = Request.Form.Files;
-            long Size = files.Sum(f => f.Length);//计算文件大小
+            int a = 0;
+            long Size = files.Sum(f => f.Length);//计算文件大小          
             string rootpath = Env.ContentRootPath + @"/Upload/测试/"; ; //获取根目录
             try
             {
@@ -55,8 +56,6 @@ namespace MoeCloud.Api.Controllers
                         dirpath += arrpath[i] + @"/";
                     }
                     DicCreate(Path.Combine(rootpath, dirpath));//不存在则创建该目录
-
-
                     string filepath = Path.Combine(rootpath, file.FileName);
                     using (var addFile = new FileStream(filepath, FileMode.OpenOrCreate))
                     {
@@ -70,12 +69,20 @@ namespace MoeCloud.Api.Controllers
                         }
                         addFile.Close();
                     }
+                    a++;
                 }
-
+                if (a==files.Count())//如果a=文件的总数就是成功上传
+                {
+                    return Ok(new
+                    {
+                        success = true,
+                        message = "上传成功"
+                    });
+                }
                 return Ok(new
                 {
-                    success = true,
-                    message = "上传成功"
+                    success = false,
+                    message = "上传失败"
                 });
             }
             catch (Exception ex)
@@ -216,21 +223,27 @@ namespace MoeCloud.Api.Controllers
                 bytes = null;
                 System.IO.File.Delete(part);//删除分块
             }
-            long size = fs.Length;
-           
+            long size = fs.Length;          
+            string[] lij = fs.Name.Split("Upload");
+            string path = @"1/" + lij[1];//存的虚路径
+            //string pid = file.DirFind();
             fs.Flush();
             fs.Close();
             Directory.Delete(dir);//删除文件夹
-            //Model.File aa=new Model.File
-            //{
-            //    Name= fileName,
-            //     Size= size,
-            //      UserID=1,
-            //      Path= uploadDir,
-            //       ParentID
-            //}
-
-            return Ok(new { error = 0 });//随便返回个值，实际中根据需要返回
+            Model.File aa = new Model.File
+            {
+                Name = fileName,
+                Size = size,
+                UserID = 1,
+                Path = path,
+                //ParentID=
+            };
+           bool c= file.Create(aa);
+            if (c)
+            {
+                return Ok(new { error = "成功"});//随便返回个值，实际中根据需要返回
+            }
+            return Ok(new { error = "失败" });//随便返回个值，实际中根据需要返回
         }
         #endregion
 
@@ -238,7 +251,8 @@ namespace MoeCloud.Api.Controllers
 
 
         [AllowAnonymous]//跳过Jwt验证     
-        public ActionResult JwtYz([FromBody] int id = 1)
+        [HttpPost]
+        public ActionResult JwtYz( int id = 1)
         {
             Role role = new Role()
             {
@@ -250,9 +264,9 @@ namespace MoeCloud.Api.Controllers
             return Content(toKen);
         }
         [Authorize]//需要Jwt验证
+        [HttpPost]
         public ActionResult Parsing()
-        {
-
+        {          
             var data = HttpContext.Request.GetModel<Role>();
             return Ok(new { successful = true });
         }

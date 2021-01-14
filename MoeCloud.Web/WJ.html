@@ -1,8 +1,4 @@
 ﻿
-@{
-    Layout = null;
-}
-
 <!DOCTYPE html>
 
 <html>
@@ -15,7 +11,7 @@
 <body>
     <div>
         <input type="file" name="file" webkitdirectory>
-        <button id="upload" type="button" onclick="upload()">上传</button>
+        <button id="upload" type="button" onclick="fileupload()">上传</button>
     </div>    
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/webuploader/webuploader.min.js"></script>
@@ -27,7 +23,7 @@
             })
         });
 
-        function Upload() {
+        function fileupload() {
             var data = new FormData();
             if (data == "") {
                 alert("不能上传空文件夹！");
@@ -38,7 +34,7 @@
                 //var path = files[0].webkitRelativePath;
                 $.ajax({
                     type: "post",
-                    url: "https://localhost:44393/FileUpload/UpLoad",
+                    url: "https://localhost:44393/FileUpload/UpLoadOne",
                     data: data,
                     contentType: false,
                     processData: false,

@@ -46,6 +46,7 @@ namespace MoeCloud.Api
                     Tion.AllowAnyMethod();
                 });
             });
+          
             services.AddDbContext<Data.CoreEntities>(options =>
             {
                 options.UseMySQL(Configuration.GetConnectionString("EFDbConnection"));
@@ -59,7 +60,9 @@ namespace MoeCloud.Api
             services.AddScoped<ILogic.IRole, Logic.RoleLogic>();
             services.AddScoped<ILogic.ISite, Logic.SiteLogic>();
             services.AddScoped<ILogic.IReg, Logic.RegLogic>();
-            services.AddScoped<ILogic.IFileUploadBLL, Logic.FileUploadBLL>();
+            services.AddScoped<ILogic.IFile, Logic.FileLogic>();
+            services.AddScoped<ILogic.IShare, Logic.ShareLogic>();
+            services.AddScoped<ILogic.IUser, Logic.UserLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
