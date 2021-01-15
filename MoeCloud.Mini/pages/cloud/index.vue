@@ -2,9 +2,9 @@
 	<view>
 		<uni-search-bar radius="100" placeholder="搜索云端文件" @confirm="search" />
 		<uni-list>
-			<uni-list-item :show-extra-icon="true" showArrow :extra-icon="extraIcon" :title="title" />
+			<uni-list-item title="文件夹" note="2021-1-15 8:00" showArrow :thumb="thumb" thumb-size="base" />
 		</uni-list>
-		<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction" @trigger="trigger" @fabClick="fabClick" />
+		<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction" @trigger="trigger" />
 	</view>
 </template>
 
@@ -12,32 +12,28 @@
 	export default {
 		data() {
 			return {
-				icon: '/static/tabs/cloud-active.png',
+				thumb: '/static/files/dir.png',
 				title: 'Hello',
-				extraIcon: {
-					color: '#4cd964',
-					size: '22',
-					type: 'gear-filled'
-				},
 				directionStr: '垂直',
 				horizontal: 'right',
 				vertical: 'bottom',
 				direction: 'horizontal',
 				pattern: {
-					color: '#3c3e49',
-					backgroundColor: '#fff',
+					// color: '#3c3e49',
+					color:'#007AFF',
+					backgroundColor: '#FFF',
 					selectedColor: '#007AFF',
 					buttonColor:'#007AFF'
 				},
 				content: [{
-						iconPath: '/static/component.png',
-						selectedIconPath: '/static/componentHL.png',
+						iconPath: '/static/fabs/upload-active.png',
+						selectedIconPath: '/static/fabs/upload-active.png',
 						text: '上传',
 						active: false
 					},
 					{
-						iconPath: '/static/api.png',
-						selectedIconPath: '/static/apiHL.png',
+						iconPath: '/static/fabs/new-active.png',
+						selectedIconPath: '/static/fabs/new-active.png',
 						text: '新建',
 						active: false
 					}
@@ -63,12 +59,12 @@
 					}
 				})
 			},
-			fabClick() {
-				uni.showToast({
-					title: '点击了悬浮按钮',
-					icon: 'none'
-				})
-			},
+			// fabClick() {
+			// 	uni.showToast({
+			// 		title: '点击了悬浮按钮',
+			// 		icon: 'none'
+			// 	})
+			// },
 			search(res) {
 				uni.showToast({
 					title: '搜索：' + res.value,
