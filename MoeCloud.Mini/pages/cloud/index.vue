@@ -1,8 +1,9 @@
 <template>
 	<view>
-		<uni-search-bar radius="100" placeholder="搜索云端文件" @confirm="search" />
+		<uni-search-bar radius="100" placeholder="搜索文件" @confirm="search" />
 		<uni-list>
 			<uni-list-item title="文件夹" note="2021-1-15 8:00" showArrow :thumb="thumb" thumb-size="base" />
+			<uni-list-item title="测试.docx" note="2021-1-15 8:00" thumb="/static/files/word.png" thumb-size="base" />
 		</uni-list>
 		<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction" @trigger="trigger" />
 	</view>
@@ -14,16 +15,14 @@
 			return {
 				thumb: '/static/files/dir.png',
 				title: 'Hello',
-				directionStr: '垂直',
 				horizontal: 'right',
 				vertical: 'bottom',
 				direction: 'horizontal',
 				pattern: {
-					// color: '#3c3e49',
-					color:'#007AFF',
+					color: '#007AFF',
 					backgroundColor: '#FFF',
 					selectedColor: '#007AFF',
-					buttonColor:'#007AFF'
+					buttonColor: '#007AFF'
 				},
 				content: [{
 						iconPath: '/static/fabs/upload-active.png',
@@ -45,19 +44,20 @@
 		},
 		methods: {
 			trigger(e) {
-				console.log(e)
-				this.content[e.index].active = !e.item.active
-				uni.showModal({
-					title: '提示',
-					content: `您${this.content[e.index].active ? '选中了' : '取消了'}${e.item.text}`,
-					success: function(res) {
-						if (res.confirm) {
-							console.log('用户点击确定')
-						} else if (res.cancel) {
-							console.log('用户点击取消')
+				if (e.index == 0) {
+					uni.showModal({
+						title: '提示',
+						content: `因小程序限制，仅提供图片上传`,
+						success: function(res) {
+							if (res.confirm) {
+								console.log('用户点击确定')
+							} else if (res.cancel) {
+								console.log('用户点击取消')
+							}
 						}
-					}
-				})
+					})
+				}
+				// console.log(e)
 			},
 			// fabClick() {
 			// 	uni.showToast({
@@ -91,5 +91,5 @@
 </script>
 
 <style>
-	
+
 </style>

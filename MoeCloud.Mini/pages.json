@@ -1,15 +1,20 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/cloud/index",
+			"style": {
+				"navigationBarTitleText": "云端文件"
+			}
+		}, {
 			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "Home"
 			}
 		},
 		{
-			"path": "pages/cloud/index",
+			"path": "pages/org/index",
 			"style": {
-				"navigationBarTitleText": "云端文件"
+				"navigationBarTitleText": "圈子"
 			}
 		},
 		{
@@ -46,6 +51,11 @@
 				"pagePath": "pages/cloud/index",
 				"iconPath": "static/tabs/cloud.png",
 				"selectedIconPath": "static/tabs/cloud-active.png"
+			}, {
+				"text": "圈子",
+				"pagePath": "pages/org/index",
+				"iconPath": "static/tabs/org.png",
+				"selectedIconPath": "static/tabs/org-active.png"
 			}, {
 				"text": "我的",
 				"pagePath": "pages/user/index",

@@ -1,9 +1,11 @@
 <template>
-	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{title}}</text>
-		</view>
+	<view>
+		<!-- <uni-list-chat key="0" :title="title" avatar="/static/logo.png" note="文本">
+			<view class="chat-custom-right">
+				<text class="chat-custom-text">刚刚</text>
+				<uni-icons type="star-filled" color="#999" size="18"></uni-icons>
+			</view>
+		</uni-list-chat> -->
 	</view>
 </template>
 
@@ -11,7 +13,7 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				title: 'Test'
 			}
 		},
 		onLoad() {
@@ -30,29 +32,18 @@
 </script>
 
 <style>
-	.content {
+	.chat-custom-right {
+		flex: 1;
+		/* #ifndef APP-NVUE */
 		display: flex;
+		/* #endif */
 		flex-direction: column;
-		align-items: center;
-		justify-content: center;
+		justify-content: space-between;
+		align-items: flex-end;
 	}
 
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 200rpx;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50rpx;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
+	.chat-custom-text {
+		font-size: 12px;
+		color: #999;
 	}
 </style>

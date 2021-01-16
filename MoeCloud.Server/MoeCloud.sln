@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoeCloud.Api", "MoeCloud.Api\MoeCloud.Api.csproj", "{F08B99E0-D5B6-4D9F-899C-ECC8C4D92C42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoeCloud.Api", "MoeCloud.Api\MoeCloud.Api.csproj", "{F08B99E0-D5B6-4D9F-899C-ECC8C4D92C42}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UILayer", "UILayer", "{515E8FCD-A923-4116-8E16-92B3B982D44A}"
 EndProject
@@ -15,17 +15,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LogicLayer", "LogicLayer", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonLayer", "CommonLayer", "{C70AFD47-44C5-45AF-8DF8-5E3AA7081E99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoeCloud.Model", "MoeCloud.Model\MoeCloud.Model.csproj", "{BFA0486A-D384-4F06-8B35-7FDB369B0544}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoeCloud.Model", "MoeCloud.Model\MoeCloud.Model.csproj", "{BFA0486A-D384-4F06-8B35-7FDB369B0544}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoeCloud.Logic", "MoeCloud.Logic\MoeCloud.Logic.csproj", "{B743E034-9991-41F4-B8D1-94562667C18A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoeCloud.Logic", "MoeCloud.Logic\MoeCloud.Logic.csproj", "{B743E034-9991-41F4-B8D1-94562667C18A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoeCloud.ILogic", "MoeCloud.ILogic\MoeCloud.ILogic.csproj", "{7DC81577-A5CD-4990-B50B-6254E59E45B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoeCloud.ILogic", "MoeCloud.ILogic\MoeCloud.ILogic.csproj", "{7DC81577-A5CD-4990-B50B-6254E59E45B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoeCloud.Data", "MoeCloud.Data\MoeCloud.Data.csproj", "{EA36C525-DB9D-4CB4-B075-5A148A0C7AC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoeCloud.Data", "MoeCloud.Data\MoeCloud.Data.csproj", "{EA36C525-DB9D-4CB4-B075-5A148A0C7AC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoeCloud.Dto", "MoeCloud.Dto\MoeCloud.Dto.csproj", "{F0154A79-BD7C-4B94-9236-EF26CB3B399D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoeCloud.Dto", "MoeCloud.Dto\MoeCloud.Dto.csproj", "{F0154A79-BD7C-4B94-9236-EF26CB3B399D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoeCloud.Common", "MoeCloud.Common\MoeCloud.Common.csproj", "{A25A9248-E674-45F3-8D25-053419AD34FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoeCloud.Common", "MoeCloud.Common\MoeCloud.Common.csproj", "{A25A9248-E674-45F3-8D25-053419AD34FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Upload\**" />
+    <Content Remove="Upload\**" />
+    <EmbeddedResource Remove="Upload\**" />
+    <None Remove="Upload\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="JWT" Version="7.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
@@ -24,10 +31,6 @@
     <ProjectReference Include="..\MoeCloud.ILogic\MoeCloud.ILogic.csproj" />
     <ProjectReference Include="..\MoeCloud.Logic\MoeCloud.Logic.csproj" />
     <ProjectReference Include="..\MoeCloud.Model\MoeCloud.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Upload\测试\" />
   </ItemGroup>
 
 </Project>
