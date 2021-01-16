@@ -7,14 +7,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using MoeCloud.Api.Handler;
+using MoeCloud.Api.Handles;
 using MoeCloud.Model;
 using MoeCloud.Logic;
 using MoeCloud.ILogic;
 
 namespace MoeCloud.Api.Controllers
 {
-    [Route("{Controller}/{Action}")]
+    [Route("[Controller]/[Action]")]
     [ApiController]
     public class FileUploadController : ControllerBase
     {

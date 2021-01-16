@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace MoeCloud.Api.Handler
+namespace MoeCloud.Api.Handles
 {
     public class JwtHelper
     {
