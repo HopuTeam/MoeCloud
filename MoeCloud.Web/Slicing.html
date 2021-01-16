@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +18,9 @@
     </div>
     <button id="jwt" >访问Api</button>
     <button id="jwt01" >访问需要的Api</button>
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/webuploader/webuploader.min.js"></script>
+	 <button id="Zip" >Zip</button>
+    <script src="./static/js/jquery.min.js"></script>
+    <script src="./static/webuploader/webuploader.min.js"></script>
     <script>   
     </script>
 <script>
@@ -51,6 +52,18 @@
 
             })
         });
+		$('#Zip').click(function () {
+		 $.ajax({
+		    url: 'https://localhost:44393/FileUpload/Parsing',                     
+		       data: JSON.stringify('F:\111.txt'),
+		      type:"post",
+		     success:function(res){
+		         console.log(res);
+		     }
+		    
+		 
+		   })
+		});
 </script>
 </body>
 </html>

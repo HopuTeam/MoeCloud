@@ -179,6 +179,9 @@ public static class ResquestExtend
                 case "Float":
                     item.SetValue(model, Convert.ToSingle(val));
                     break;
+                case "Int64":
+                    item.SetValue(model, Convert.ToInt64(val));
+                    break;
                 default:
                     item.SetValue(model, val);
                     break;

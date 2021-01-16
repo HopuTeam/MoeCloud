@@ -11,6 +11,8 @@ using MoeCloud.Api.Handles;
 using MoeCloud.Model;
 using MoeCloud.Logic;
 using MoeCloud.ILogic;
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Checksum;
 
 namespace MoeCloud.Api.Controllers
 {
@@ -268,8 +270,72 @@ namespace MoeCloud.Api.Controllers
         public ActionResult Parsing()
         {          
             var data = HttpContext.Request.GetModel<Role>();
-            return Ok(new { successful = true });
+            return Ok(new { successful = data });
         }
+
+        #region 压缩文件
+        /// <summary>
+        /// 压缩
+        /// </summary>
+        /// <param name="source">源目录,要压缩的文件夹，@"F:\111"</param>
+        /// <param name="strZip">压缩包的名字，111.zip</param>
+        [HttpPost]
+        public void ZipFile(string strFile, string strZip)
+        {
+            strFile = @"F:\111";
+            strZip = "111.zip";
+            var uploadDir = Env.ContentRootPath + @"/Upload/测试/";//Upload 文件夹           
+            var fs = new FileStream(Path.Combine(uploadDir, strZip), FileMode.Create);//创建压缩文件夹           
+            //string a = fs.Name.Substring(fs.Name.LastIndexOf("\\")+1);//拿到文件名字
+            if (strFile[strFile.Length - 1] != Path.DirectorySeparatorChar)
+                strFile += Path.DirectorySeparatorChar;
+            ZipOutputStream s = new ZipOutputStream(fs);
+            s.SetLevel(6); //压缩级别
+            zip(strFile, s, strFile);//递归
+            s.Finish();
+            s.Close();//关闭并释放文件流
+        }
+
+        private void zip(string strFile, ZipOutputStream s, string staticFile)
+        {
+            if (strFile[strFile.Length - 1] != Path.DirectorySeparatorChar)
+                strFile += Path.DirectorySeparatorChar;
+            Crc32 crc = new Crc32();
+            string[] filenames = Directory.GetFileSystemEntries(strFile);//打开文件夹，拿到文件夹里面文件的数量
+            foreach (string file in filenames)
+            {
+
+                if (Directory.Exists(file))
+                {
+                    zip(file, s, staticFile);
+                }
+
+                else // 否则直接压缩文件
+                {
+                    //var fs = new FileStream(finalFilePath, FileMode.Create)
+                    //打开压缩文件
+                    FileStream fs =new FileStream(file, FileMode.Create);
+
+                    byte[] buffer = new byte[fs.Length];
+                    fs.Read(buffer, 0, buffer.Length);
+                    string tempfile = file.Substring(staticFile.LastIndexOf("\\") + 1);
+                    ZipEntry entry = new ZipEntry(tempfile);
+
+                    entry.DateTime = DateTime.Now;
+                    entry.Size = fs.Length;
+                    fs.Close();
+                    crc.Reset();
+                    crc.Update(buffer);
+                    entry.Crc = crc.Value;
+                    s.PutNextEntry(entry);
+
+                    s.Write(buffer, 0, buffer.Length);
+                }
+            }
+        }
+        #endregion
+
     }
 
 }
+
