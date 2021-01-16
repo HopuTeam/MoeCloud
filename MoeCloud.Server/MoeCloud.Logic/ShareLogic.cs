@@ -26,27 +26,36 @@ namespace MoeCloud.Logic
         // delete a share
         public bool Delete(int id)
         {
-            EF.Remove(EF.Shares.FirstOrDefault(x => x.ID == id));
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                EF.Remove(EF.Shares.FirstOrDefault(x => x.ID == id));
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         // swich share function => 用户端
         public bool Swich(int id)
         {
-            Random ran = new Random();
-            var mod = EF.Shares.FirstOrDefault(x => x.ID == id);
-            if (mod.Code == null)
-                mod.Code = Common.Security.MD5Encrypt32(ran.Next(1000, 9999).ToString()).Substring(ran.Next(1, 16), 6).ToLower();
-            else
-                mod.Code = null;
-
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                Random ran = new Random();
+                var mod = EF.Shares.FirstOrDefault(x => x.ID == id);
+                if (mod.Code == null)
+                    mod.Code = Common.Security.MD5Encrypt32(ran.Next(1000, 9999).ToString()).Substring(ran.Next(1, 16), 6).ToLower();
+                else
+                    mod.Code = null;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         // get all list => 管理员查全部请传 userID = 0

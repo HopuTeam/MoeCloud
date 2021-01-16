@@ -22,16 +22,21 @@ namespace MoeCloud.Logic
         //修改
         public bool EditReg(Model.Reg reg)
         {
-            var mod = EF.Regs.FirstOrDefault();
-            mod.AllowReg = reg.AllowReg;
-            mod.EmailActive = reg.EmailActive;
-            mod.RegCode = reg.RegCode;
-            mod.SignCode = reg.SignCode;
-            mod.DefaultRoleID = reg.DefaultRoleID;
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Regs.FirstOrDefault();
+                mod.AllowReg = reg.AllowReg;
+                mod.EmailActive = reg.EmailActive;
+                mod.RegCode = reg.RegCode;
+                mod.SignCode = reg.SignCode;
+                mod.DefaultRoleID = reg.DefaultRoleID;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
     }
 }

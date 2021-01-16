@@ -22,19 +22,24 @@ namespace MoeCloud.Logic
         //修改
         public bool EditMail(Model.Mail mail)
         {
-            var mod = EF.Mails.FirstOrDefault();
-            mod.Host = mail.Host;
-            mod.Account = mail.Account;
-            mod.Password = mail.Password;
-            mod.Port = mail.Port;
-            mod.From = mail.From;
-            mod.SSL = mail.SSL;
-            mod.ActiveModel = mail.ActiveModel;
-            mod.ResetModel = mail.ResetModel;
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Mails.FirstOrDefault();
+                mod.Host = mail.Host;
+                mod.Account = mail.Account;
+                mod.Password = mail.Password;
+                mod.Port = mail.Port;
+                mod.From = mail.From;
+                mod.SSL = mail.SSL;
+                mod.ActiveModel = mail.ActiveModel;
+                mod.ResetModel = mail.ResetModel;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
     }
 }

@@ -16,27 +16,36 @@ namespace MoeCloud.Logic
         // 往数据库添加文件记录
         public bool Create(Model.File file)
         {
-            file.AddTime = DateTime.Now;
-            EF.Add(file);
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                file.AddTime = DateTime.Now;
+                EF.Add(file);
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         // 把文件放入回收站并添加删除标记，如果delDay为0则撤回删除标记
         public bool Cycle(int id, int delDay)
         {
-            var mod = EF.Files.FirstOrDefault(x => x.ID == id);
-            if (delDay == 0)
-                mod.DelTime = null;
-            else
-                mod.DelTime = DateTime.Now.AddDays(delDay);
-
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Files.FirstOrDefault(x => x.ID == id);
+                if (delDay == 0)
+                    mod.DelTime = null;
+                else
+                    mod.DelTime = DateTime.Now.AddDays(delDay);
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         /*
@@ -45,22 +54,32 @@ namespace MoeCloud.Logic
          */
         public bool DelFile(int id)
         {
-            EF.Remove(EF.Files.FirstOrDefault(x => x.ID == id));
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                EF.Remove(EF.Files.FirstOrDefault(x => x.ID == id));
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         // 文件重命名
         public bool EditName(int id, string Name)
         {
-            var mod = EF.Files.FirstOrDefault(x => x.ID == id);
-            mod.Name = Name;
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Files.FirstOrDefault(x => x.ID == id);
+                mod.Name = Name;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         // 通过实际虚路径查找文件信息
@@ -95,12 +114,17 @@ namespace MoeCloud.Logic
         // 移动文件(修改路径)
         public bool EditPath(int id, string path)
         {
-            var mod = EF.Files.FirstOrDefault(x => x.ID == id);
-            mod.Path = path;
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Files.FirstOrDefault(x => x.ID == id);
+                mod.Path = path;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
     }
 }

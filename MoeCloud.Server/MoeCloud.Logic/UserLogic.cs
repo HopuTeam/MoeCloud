@@ -28,16 +28,21 @@ namespace MoeCloud.Logic
         //重置密码，通过ID
         public bool RestPassword(int id, string password)
         {
-            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
-            mod.Password = Common.Security.MD5Encrypt32(password);
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+                mod.Password = Common.Security.MD5Encrypt32(password);
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch// (Exception ex)
+            {
                 return false;
+            }
         }
 
         //获取一个用户的信息，可为ID、Account、Email
-        public Model.User GetUser(int id, string account, string email)
+        public Model.User GetUser(int id = 0, string account = null, string email = null)
         {
             Model.User user = null;
             if (id != 0)
@@ -52,62 +57,87 @@ namespace MoeCloud.Logic
         //Delete a user
         public bool DelUser(int id)
         {
-            EF.Remove(EF.Users.FirstOrDefault(x => x.ID == id));
-            EF.Remove(EF.Files.Where(x => x.UserID == id));
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                EF.Remove(EF.Users.FirstOrDefault(x => x.ID == id));
+                EF.Remove(EF.Files.Where(x => x.UserID == id));
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         //Add user
         public bool AddUser(Model.User user)
         {
-            user.Password = Common.Security.MD5Encrypt32(user.Password);
-            EF.Users.Add(user);
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                user.Password = Common.Security.MD5Encrypt32(user.Password);
+                EF.Users.Add(user);
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         // Edit user info
         public bool EditUser(Model.User user)
         {
-            var mod = EF.Users.FirstOrDefault(x => x.ID == user.ID);
-            if (user.Email != null && mod.Email != user.Email)
+            try
             {
-                mod.Email = user.Email;
-                mod.Active = false;
-            }
-            if (user.Account != null)
-                mod.Account = user.Account;
-            if (EF.SaveChanges() > 0)
+                var mod = EF.Users.FirstOrDefault(x => x.ID == user.ID);
+                if (user.Email != null && mod.Email != user.Email)
+                {
+                    mod.Email = user.Email;
+                    mod.Active = false;
+                }
+                if (user.Account != null)
+                    mod.Account = user.Account;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         //update useSize
         public bool UpdateUseSize(int id, long useSize)
         {
-            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
-            mod.UseSize = useSize;
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+                mod.UseSize = useSize;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         //change role
         public bool ChangeRole(int id, int roleID)
         {
-            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
-            mod.RoleID = roleID;
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+                mod.RoleID = roleID;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         /// <summary>
@@ -117,40 +147,55 @@ namespace MoeCloud.Logic
         /// <returns></returns>
         public bool ChangeActive(int id)
         {
-            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
-            if (mod.Active)
-                mod.Active = false;
-            else
-                mod.Active = true;
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+                if (mod.Active)
+                    mod.Active = false;
+                else
+                    mod.Active = true;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         // (封禁/解封)帐户
         public bool SwichStatus(int id)
         {
-            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
-            if (mod.Status)
-                mod.Status = false;
-            else
-                mod.Status = true;
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+                if (mod.Status)
+                    mod.Status = false;
+                else
+                    mod.Status = true;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         // Edit password
         public bool EditPassword(int id, string password)
         {
-            var mod = EF.Users.FirstOrDefault(x => x.ID == id);
-            mod.Password = Common.Security.MD5Encrypt32(password);
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Users.FirstOrDefault(x => x.ID == id);
+                mod.Password = Common.Security.MD5Encrypt32(password);
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
     }
 }

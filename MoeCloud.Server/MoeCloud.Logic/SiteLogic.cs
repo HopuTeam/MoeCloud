@@ -22,16 +22,21 @@ namespace MoeCloud.Logic
         //修改
         public bool EditSite(Model.Site site)
         {
-            var mod = EF.Sites.FirstOrDefault();
-            mod.MainTitle = site.MainTitle;
-            mod.SecTitle = site.SecTitle;
-            mod.Description = site.Description;
-            mod.Url = site.Url;
-            mod.Script = site.Script;
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Sites.FirstOrDefault();
+                mod.MainTitle = site.MainTitle;
+                mod.SecTitle = site.SecTitle;
+                mod.Description = site.Description;
+                mod.Url = site.Url;
+                mod.Script = site.Script;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
     }
 }

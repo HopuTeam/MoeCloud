@@ -15,39 +15,52 @@ namespace MoeCloud.Logic
 
         public bool AddRole(Model.Role role)
         {
-            role.Status = true;
-            EF.Add(role);
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                role.Status = true;
+                EF.Add(role);
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         public bool DelRole(int id)
         {
-            if (id >= 0 && id <= 3)
-                return false;
-
-            EF.Remove(EF.Roles.FirstOrDefault(x => x.ID == id));
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                if (id >= 0 && id <= 3)
+                    return false;
+                EF.Remove(EF.Roles.FirstOrDefault(x => x.ID == id));
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         public bool EditRole(Model.Role role)
         {
-            var mod = EF.Roles.FirstOrDefault(x => x.ID == role.ID);
-            mod.Name = role.Name;
-            mod.MaxSize = role.MaxSize;
-            mod.Speed = role.Speed;
-            mod.Bundle = role.Bundle;
-            mod.Release = role.Release;
-
-            if (EF.SaveChanges() > 0)
+            try
+            {
+                var mod = EF.Roles.FirstOrDefault(x => x.ID == role.ID);
+                mod.Name = role.Name;
+                mod.MaxSize = role.MaxSize;
+                mod.Speed = role.Speed;
+                mod.Bundle = role.Bundle;
+                mod.Release = role.Release;
+                EF.SaveChanges();
                 return true;
-            else
+            }
+            catch
+            {
                 return false;
+            }
         }
 
         public List<Model.Role> GetList()
