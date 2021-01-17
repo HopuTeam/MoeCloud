@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-list-chat key="0" :title="title" avatar="/static/logo.png" note="文本">
+		<uni-list-chat key="0" :title="title" avatar="/static/logo.png" :note="note">
 			<view class="chat-custom-right">
 				<text class="chat-custom-text">刚刚</text>
 				<uni-icons type="star-filled" color="#999" size="18"></uni-icons>
@@ -13,7 +13,8 @@
 	export default {
 		data() {
 			return {
-				title: 'This is MoeCloud!'
+				title: '老王',
+				note: '刚你人跑哪去了?'
 			}
 		},
 		onLoad() {

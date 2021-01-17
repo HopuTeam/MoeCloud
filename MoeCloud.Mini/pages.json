@@ -60,11 +60,11 @@
 				"iconPath": "static/tabs/cloud.png",
 				"selectedIconPath": "static/tabs/cloud-active.png"
 			}, {
-				"text": "圈子",
-				"pagePath": "pages/org/index",
-				"iconPath": "static/tabs/org.png",
-				"selectedIconPath": "static/tabs/org-active.png"
-			}, {
+			// 	"text": "圈子",
+			// 	"pagePath": "pages/org/index",
+			// 	"iconPath": "static/tabs/org.png",
+			// 	"selectedIconPath": "static/tabs/org-active.png"
+			// }, {
 				"text": "我的",
 				"pagePath": "pages/user/index",
 				"iconPath": "static/tabs/user.png",

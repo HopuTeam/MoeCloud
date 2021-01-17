@@ -2,9 +2,8 @@
 	<view>
 		<uni-search-bar radius="100" placeholder="搜索文件" @confirm="search" />
 		<uni-list>
-			<uni-list-item :to="`./view?id=1&dir=文件夹`" :title="title" note="2021-1-15 8:00" showArrow :thumb="thumb" thumb-size="base" />
-			<uni-list-item :to="`./detail?id=1&name=a`" title="测试.docx" note="2021-1-15 8:00" thumb="/static/files/word.png"
-			 thumb-size="base" />
+			<uni-list-item :to="`./view?id=1&dir=文件夹`" title="文件夹" note="2021-1-15 8:00" showArrow thumb="/static/files/dir.png" thumb-size="base" />
+			<uni-list-item :to="`./detail?id=1&name=测试.docx`" title="测试.docx" note="2021-1-15 8:00" thumb="/static/files/word.png" thumb-size="base" />
 		</uni-list>
 		<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction" @trigger="trigger" />
 	</view>
@@ -14,8 +13,6 @@
 	export default {
 		data() {
 			return {
-				thumb: '/static/files/dir.png',
-				title: '文件夹',
 				horizontal: 'right',
 				vertical: 'bottom',
 				direction: 'horizontal',
