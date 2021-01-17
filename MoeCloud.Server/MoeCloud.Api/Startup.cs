@@ -75,6 +75,7 @@ namespace MoeCloud.Api
             {
                 endpoints.MapControllers();
             });
+          
         }
     }
 }

@@ -73,7 +73,7 @@ namespace MoeCloud.Api.Controllers
                     }
                     a++;
                 }
-                if (a==files.Count())//如果a=文件的总数就是成功上传
+                if (a == files.Count())//如果a=文件的总数就是成功上传
                 {
                     return Ok(new
                     {
@@ -100,7 +100,7 @@ namespace MoeCloud.Api.Controllers
         /// <summary>
         /// 文件目录如果不存在，就创建一个新的目录
         /// </summary>
-       /// <param name="path"></param>
+        /// <param name="path"></param>
         private void DicCreate(string path)
         {
             if (!Directory.Exists(path))
@@ -109,98 +109,16 @@ namespace MoeCloud.Api.Controllers
             }
         }
 
-#endregion
-
-        /// <summary>
-        /// 上传文件
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> FileSave()
-        {
-            var date = Request;
-            var files = Request.Form.Files;//获取前端传进的文件
-            long size = files.Sum(f => f.Length);//计算大小
-            string rootpath = Env.ContentRootPath + @"/Upload/测试/"; ; //获取根目录
-            foreach (var formFile in files)
-            {
-                if (formFile.Length > 0) 
-                {
-                    string fileExt = formFile.FileName.Substring(formFile.FileName.IndexOf('.')); //文件扩展名，不含“.”
-                    long fileSize = formFile.Length; //获得文件大小，以字节为单位
-                    string newFileName = Guid.NewGuid().ToString() + "." + fileExt; //随机生成新的文件名
-                    string DirPath = Path.Combine(rootpath, Request.Form["guid"]);
-                    if (!Directory.Exists(DirPath))
-                    {
-                        Directory.CreateDirectory(DirPath);
-                    }
-                    var filePath = DirPath + "/" + Request.Form["chunk"] + fileExt;
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-
-                    }
-                }
-            }
-            return Ok(new { count = files.Count, size });
-        }
-
-        /// <summary>
-        /// 合并请求
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> FileMerge()
-        {
-            bool ok = false;
-            string rootpath01 = Env.ContentRootPath + @"/Upload/测试/临时文件夹";  //临时文件夹
-            string errmsg = "";
-            try
-            {
-                var temporary = Path.Combine(rootpath01, Request.Form["guid"]);//临时文件夹
-                string fileName = Request.Form["fileName"];//文件名
-                string fileExt = Path.GetExtension(fileName);//获取文件后缀
-                var files = Directory.GetFiles(temporary);//获得下面的所有文件
-
-                var finalFilePath = Path.Combine(rootpath01 + fileName);//最终的文件名
-                //var fs = new FileStream(finalFilePath, FileMode.Create);
-                using (var fs = new FileStream(finalFilePath, FileMode.Create))
-                {
-                    foreach (var part in files.OrderBy(x => x.Length).ThenBy(x => x))
-                    {
-                        var bytes = System.IO.File.ReadAllBytes(part);
-                        await fs.WriteAsync(bytes, 0, bytes.Length);
-                        bytes = null;
-                        System.IO.File.Delete(part);//删除分块
-                    }
-                    Directory.Delete(temporary);//删除文件夹
-                    ok = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                ok = false;
-                errmsg = ex.Message;
-               //log4net.Error(errmsg);
-            }
-            if (ok)
-            {
-                return Ok(new { success = true, msg = "" });
-            }
-            else
-            {
-                return Ok(new { success = false, msg = errmsg }); ;
-            }
-        }
+        #endregion
 
         #region 分片上传
-        [HttpPost]      
+        [HttpPost]
         public ActionResult Upload()
         {
             //string fileName = Request.Form["name"];
             int index = Convert.ToInt32(Request.Form["chunk"]);//当前分块序号
             var guid = Request.Form["guid"];//前端传来的GUID号
-            var dir = $"{ Env.ContentRootPath }/Upload/测试/{ guid }/";//临时保存分块的目录
+            var dir = $"{ Env.ContentRootPath }/Upload/UserFiles/{1}/aaa/{ guid }/";//临时保存分块的目录
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             string filePath = dir + index.ToString();//分块文件名为索引名，更严谨一些可以加上是否存在的判断，防止多线程时并发冲突
@@ -211,13 +129,13 @@ namespace MoeCloud.Api.Controllers
             }
             return Ok(new { error = 0 });
         }
-        
-        // strPath有严格的要求
-        public ActionResult Merge(string strPath = "/aaa")
+
+        public ActionResult Merge(string strPath="/1/aaa")//1是模拟用户id
         {
-            var uploadDir = Env.ContentRootPath + @"/Upload/测试/";//Upload 文件夹
+          
+            var uploadDir = Env.ContentRootPath + @"/Upload/UserFiles"+strPath;//Upload 文件夹          
             var dir = Path.Combine(uploadDir, Request.Form["guid"]);//临时文件夹
-            string  fileName = Request.Form["fileName"];
+            string fileName = Request.Form["fileName"];
             var fs = new FileStream(Path.Combine(uploadDir, fileName), FileMode.Create);
             foreach (var part in Directory.GetFiles(dir).OrderBy(x => x.Length).ThenBy(x => x))//排一下序，保证从0-N Write
             {
@@ -226,14 +144,14 @@ namespace MoeCloud.Api.Controllers
                 bytes = null;
                 System.IO.File.Delete(part);//删除分块
             }
-            long size = fs.Length;          
-            string[] lij = fs.Name.Split("Upload");
-            string path = lij[1] + $"{ID}{strPath}/";//存的虚路径
-            // 读取存储路径的ID
-            string pid = file.DirFind($"{strPath}/").ID;
+            Directory.Delete(dir);//删除文件夹
             fs.Flush();
             fs.Close();
-            Directory.Delete(dir);//删除文件夹
+            long size = fs.Length;
+            string[] lij = fs.Name.Split("UserFiles");        
+            string path = lij[1];
+            int pid = file.DirFind($"{strPath}/").ID;         
+            var User = HttpContext.Request.GetModel<User>();          
             Model.File aa = new Model.File
             {
                 Name = fileName,
@@ -242,10 +160,10 @@ namespace MoeCloud.Api.Controllers
                 Path = path,
                 ParentID = pid
             };
-           bool c= file.Create(aa);
+            bool c = file.Create(aa);
             if (c)
             {
-                return Ok(new { error = "成功"});//随便返回个值，实际中根据需要返回
+                return Ok(new { error = "成功" });//随便返回个值，实际中根据需要返回
             }
             return Ok(new { error = "失败" });//随便返回个值，实际中根据需要返回
         }
@@ -254,9 +172,9 @@ namespace MoeCloud.Api.Controllers
 
 
 
-        [AllowAnonymous]//跳过Jwt验证     
+        // [AllowAnonymous]//跳过Jwt验证     
         [HttpPost]
-        public ActionResult JwtYz( int id = 1)
+        public ActionResult JwtYz(int id = 1)
         {
             Role role = new Role()
             {
@@ -267,10 +185,10 @@ namespace MoeCloud.Api.Controllers
 
             return Content(toKen);
         }
-        [Authorize]//需要Jwt验证
+        //[Authorize]//需要Jwt验证
         [HttpPost]
-        public ActionResult Parsing()
-        {          
+        public ActionResult Jwtcs()
+        {
             var data = HttpContext.Request.GetModel<Role>();
             return Ok(new { successful = data });
         }
@@ -284,9 +202,13 @@ namespace MoeCloud.Api.Controllers
         [HttpPost]
         public void ZipFile(string strFile, string strZip)
         {
-            strFile = @"F:\111";
-            strZip = "111.zip";
-            var uploadDir = Env.ContentRootPath + @"/Upload/测试/";//Upload 文件夹           
+            strFile = @"D:\厚朴作业\.NETCore\测试上传\压缩";
+            strZip = "2.zip";
+            var uploadDir = Env.ContentRootPath + @"/Upload/测试/";//Upload 文件夹                     
+            if (!Directory.Exists(uploadDir))
+            {
+                Directory.CreateDirectory(uploadDir);
+            }
             var fs = new FileStream(Path.Combine(uploadDir, strZip), FileMode.Create);//创建压缩文件夹           
             //string a = fs.Name.Substring(fs.Name.LastIndexOf("\\")+1);//拿到文件名字
             if (strFile[strFile.Length - 1] != Path.DirectorySeparatorChar)
@@ -315,8 +237,9 @@ namespace MoeCloud.Api.Controllers
                 else // 否则直接压缩文件
                 {
                     //var fs = new FileStream(finalFilePath, FileMode.Create)
-                    //打开压缩文件
-                    FileStream fs =new FileStream(file, FileMode.Create);
+                    //打开文件
+
+                    FileStream fs = new FileStream(file, FileMode.Open);
 
                     byte[] buffer = new byte[fs.Length];
                     fs.Read(buffer, 0, buffer.Length);
@@ -337,6 +260,97 @@ namespace MoeCloud.Api.Controllers
         }
         #endregion
 
+        #region 解压缩
+        public string unZipFile(string TargetFile, string fileDir)
+        {
+            string rootFile = "";
+            string lj = "";
+            TargetFile = @"D:\厚朴作业\.NETCore\测试上传\压缩.zip";           
+            fileDir = $"{ Env.ContentRootPath }/Upload/UserFiles/{1}/aaa/";
+            FileStream fs = new FileStream(TargetFile.Trim(), FileMode.Open);
+            //读取压缩文件(zip文件),准备解压缩
+            ZipInputStream s = new ZipInputStream(fs);
+            ZipEntry theEntry;
+            string path = fileDir;
+            //解压出来的文件保存的路径
+            string rootDir = "";
+            //根目录下的第一个子文件夹的名称
+            while ((theEntry = s.GetNextEntry()) != null)
+            {
+                rootDir = Path.GetDirectoryName(theEntry.Name);
+                //得到根目录下的第一级子文件夹的名称
+                if (rootDir.IndexOf("\\") >= 0)
+                {
+                    rootDir = rootDir.Substring(0, rootDir.IndexOf("\\") + 1);
+                }
+                string dir = Path.GetDirectoryName(theEntry.Name);
+                //根目录下的第一级子文件夹的下的文件夹的名称
+                string fileName = Path.GetFileName(theEntry.Name);
+                //根目录下的文件名称
+                if (dir != " ")
+                //创建根目录下的子文件夹,不限制级别
+                {
+                    if (!Directory.Exists(fileDir + "\\" + dir))
+                    {
+                        path = fileDir + "\\" + dir;
+                        //在指定的路径创建文件夹
+                        Directory.CreateDirectory(path);
+                    }
+                }
+                else if (dir == " " && fileName != "")
+                //根目录下的文件
+                {
+                    path = fileDir;
+                    rootFile = fileName;
+                }
+                else if (dir != " " && fileName != "")
+                //根目录下的第一级子文件夹下的文件
+                {
+                    if (dir.IndexOf("\\") > 0)
+                    //指定文件保存的路径
+                    {
+                        path = fileDir + "\\" + dir;
+                    }
+                }
+
+                if (dir == rootDir)
+                //判断是不是需要保存在根目录下的文件
+                {
+                    path = fileDir + "\\" + rootDir;
+                }
+
+                //以下为解压缩zip文件的基本步骤
+                //基本思路就是遍历压缩文件里的所有文件,创建一个相同的文件。
+                if (fileName != String.Empty)
+                {
+                    FileStream streamWriter = new FileStream(path + "\\" + fileName, FileMode.Create);
+                    //fs.Name.Substring(fs.Name.LastIndexOf("\\") + 1);//拿到文件名字   
+                    lj = streamWriter.Name;
+                    int size = 2048;
+                    byte[] data = new byte[2048];
+                    while (true)
+                    {
+                        size = s.Read(data, 0, data.Length);
+                        if (size > 0)
+                        {
+                            streamWriter.Write(data, 0, size);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    streamWriter.Close();
+                }
+            }
+            s.Close();
+
+            return lj;
+        }
+
+
+        #endregion
     }
 
 }
