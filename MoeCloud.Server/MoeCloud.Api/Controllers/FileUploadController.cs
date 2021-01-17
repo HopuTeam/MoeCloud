@@ -211,8 +211,9 @@ namespace MoeCloud.Api.Controllers
             }
             return Ok(new { error = 0 });
         }
-              
-        public ActionResult Merge()
+        
+        // strPath有严格的要求
+        public ActionResult Merge(string strPath = "/aaa")
         {
             var uploadDir = Env.ContentRootPath + @"/Upload/测试/";//Upload 文件夹
             var dir = Path.Combine(uploadDir, Request.Form["guid"]);//临时文件夹
@@ -227,8 +228,9 @@ namespace MoeCloud.Api.Controllers
             }
             long size = fs.Length;          
             string[] lij = fs.Name.Split("Upload");
-            string path = @"1/" + lij[1];//存的虚路径
-            //string pid = file.DirFind();
+            string path = lij[1] + $"{ID}{strPath}/";//存的虚路径
+            // 读取存储路径的ID
+            string pid = file.DirFind($"{strPath}/").ID;
             fs.Flush();
             fs.Close();
             Directory.Delete(dir);//删除文件夹
@@ -238,7 +240,7 @@ namespace MoeCloud.Api.Controllers
                 Size = size,
                 UserID = 1,
                 Path = path,
-                //ParentID=
+                ParentID = pid
             };
            bool c= file.Create(aa);
             if (c)

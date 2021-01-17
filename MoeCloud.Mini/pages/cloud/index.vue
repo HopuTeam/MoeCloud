@@ -2,8 +2,9 @@
 	<view>
 		<uni-search-bar radius="100" placeholder="搜索文件" @confirm="search" />
 		<uni-list>
-			<uni-list-item title="文件夹" note="2021-1-15 8:00" showArrow :thumb="thumb" thumb-size="base" />
-			<uni-list-item title="测试.docx" note="2021-1-15 8:00" thumb="/static/files/word.png" thumb-size="base" />
+			<uni-list-item :to="`./view?id=1&dir=文件夹`" :title="title" note="2021-1-15 8:00" showArrow :thumb="thumb" thumb-size="base" />
+			<uni-list-item :to="`./detail?id=1&name=a`" title="测试.docx" note="2021-1-15 8:00" thumb="/static/files/word.png"
+			 thumb-size="base" />
 		</uni-list>
 		<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction" @trigger="trigger" />
 	</view>
@@ -14,7 +15,7 @@
 		data() {
 			return {
 				thumb: '/static/files/dir.png',
-				title: 'Hello',
+				title: '文件夹',
 				horizontal: 'right',
 				vertical: 'bottom',
 				direction: 'horizontal',
@@ -57,26 +58,10 @@
 						}
 					})
 				}
-				// console.log(e)
 			},
-			// fabClick() {
-			// 	uni.showToast({
-			// 		title: '点击了悬浮按钮',
-			// 		icon: 'none'
-			// 	})
-			// },
 			search(res) {
 				uni.showToast({
 					title: '搜索：' + res.value,
-					icon: 'none'
-				})
-			},
-			input(res) {
-				this.searchVal = res.value
-			},
-			cancel(res) {
-				uni.showToast({
-					title: '点击取消，输入值为：' + res.value,
 					icon: 'none'
 				})
 			}
