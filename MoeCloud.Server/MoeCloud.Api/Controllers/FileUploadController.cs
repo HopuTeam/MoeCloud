@@ -35,14 +35,14 @@ namespace MoeCloud.Api.Controllers
         #region 文件夹上传
         [HttpPost]
         //文件夹上传
-        public IActionResult UpLoadOne(string  strPath= "/1/aaa")
+        public IActionResult UpLoadOne(string strPath = "/1/aaa")
         {
             var files = Request.Form.Files;
             var User = HttpContext.Request.GetModel<User>();   //当前登录账户     
-            int a = 0;         
+            int a = 0;
             long Size = files.Sum(f => f.Length);//计算文件大小          
-            string rootpath = $"{Env.ContentRootPath}/Upload/UserFiles"+strPath ; //获取根目录
-            try 
+            string rootpath = $"{Env.ContentRootPath}/Upload/UserFiles" + strPath; //获取根目录
+            try
             {
                 foreach (var file in files)
                 {
@@ -58,7 +58,7 @@ namespace MoeCloud.Api.Controllers
                         }
                         dirpath += arrpath[i] + @"/";
                     }
-                    DicCreate(Path.Combine(rootpath, dirpath), dirpath,User.ID);//不存在则创建该目录,dirpath=>当前创建的文件夹名称
+                    DicCreate(Path.Combine(rootpath, dirpath), dirpath, User.ID);//不存在则创建该目录,dirpath=>当前创建的文件夹名称
                     string filepath = Path.Combine(rootpath, file.FileName);
                     using (var addFile = new FileStream(filepath, FileMode.OpenOrCreate))
                     {
@@ -69,7 +69,7 @@ namespace MoeCloud.Api.Controllers
                             int pid = Ifile.DirFind($"{Thesuperior[0]}").ID;//上级目录id
                             Model.File aa = new Model.File
                             {
-                                Name = file.FileName,
+                                Name = filename,
                                 Size = addFile.Length,
                                 UserID = User.ID,
                                 Path = path[1],
@@ -114,19 +114,21 @@ namespace MoeCloud.Api.Controllers
         /// 文件目录如果不存在，就创建一个新的目录
         /// </summary>
         /// <param name="path"></param>
-        private void DicCreate(string path,string thname,int Userid)
+        private void DicCreate(string path, string thname, int Userid)
         {
             if (!Directory.Exists(path))
-            {       
-                Directory.CreateDirectory(path);             
-                    string[] arrpath = path.Split("UserFiles");//去除根目录
-                    string Virtualpath = arrpath[1];//获得虚路径
-                    string[] shnagji = Virtualpath.Split("thname");//删除当前文件名得到上级目录
-                    int pid = Ifile.DirFind($"{shnagji[0]}").ID;//上级目录id
+            {
+                Directory.CreateDirectory(path);              
+                string[] arrpath = path.Split("UserFiles",StringSplitOptions.RemoveEmptyEntries);//去除根目录
+                string Virtualpath = arrpath[1];//获得虚路径
+                string[] aaa = Virtualpath.Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
+                string folder = aaa[aaa.Length - 1];//选取分割数组里面最后一个，就是文件夹名字
+                string[] shnagji = Virtualpath.Split($"{folder}",StringSplitOptions.RemoveEmptyEntries);//删除当前文件名得到上级目录
+                int pid = Ifile.DirFind($"{shnagji[0]}").ID;//上级目录id
                 Model.File xxx = new Model.File
                 {
                     Name = thname,
-                    Size =0,
+                    Size = 0,
                     UserID = Userid,
                     Path = Virtualpath,
                     ParentID = pid
@@ -156,10 +158,10 @@ namespace MoeCloud.Api.Controllers
             return Ok(new { error = 0 });
         }
 
-        public ActionResult Merge(string strPath="/1/aaa")//1是模拟用户id
+        public ActionResult Merge(string strPath = "/1/aaa")//1是模拟用户id
         {
-           
-            var uploadDir = Env.ContentRootPath + @"/Upload/UserFiles"+strPath;//Upload 文件夹          
+
+            var uploadDir = Env.ContentRootPath + @"/Upload/UserFiles" + strPath;//Upload 文件夹          
             var dir = Path.Combine(uploadDir, Request.Form["guid"]);//临时文件夹
             string fileName = Request.Form["fileName"];
             var fs = new FileStream(Path.Combine(uploadDir, fileName), FileMode.Create);
@@ -174,9 +176,9 @@ namespace MoeCloud.Api.Controllers
             fs.Flush();
             fs.Close();
             long size = fs.Length;
-            string[] lij = fs.Name.Split("UserFiles");        
+            string[] lij = fs.Name.Split("UserFiles");
             string path = lij[1];
-            int pid = Ifile.DirFind($"{strPath}/").ID;         
+            int pid = Ifile.DirFind($"{strPath}/").ID;
             var User = HttpContext.Request.GetModel<User>();   //当前登录账户        
             Model.File aa = new Model.File
             {
@@ -287,11 +289,17 @@ namespace MoeCloud.Api.Controllers
         #endregion
 
         #region 解压缩
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TargetFile">待解压的文件路径</param>
+        /// <param name="fileDir">解压到的目录</param>
+        /// <returns></returns>
         public string unZipFile(string TargetFile, string fileDir)
         {
             string rootFile = "";
             string lj = "";
-            TargetFile = @"D:\厚朴作业\.NETCore\测试上传\压缩.zip";           
+            TargetFile = @"D:\厚朴作业\.NETCore\测试上传\压缩.zip";
             fileDir = $"{ Env.ContentRootPath }/Upload/UserFiles/{1}/aaa/";
             FileStream fs = new FileStream(TargetFile.Trim(), FileMode.Open);
             //读取压缩文件(zip文件),准备解压缩
@@ -316,11 +324,25 @@ namespace MoeCloud.Api.Controllers
                 if (dir != " ")
                 //创建根目录下的子文件夹,不限制级别
                 {
-                    if (!Directory.Exists(fileDir + "\\" + dir))
+                    if (!Directory.Exists(fileDir+ dir))
                     {
-                        path = fileDir + "\\" + dir;
+                        path = fileDir + dir;//根目录加文件名
                         //在指定的路径创建文件夹
                         Directory.CreateDirectory(path);
+                        string[] Path = path.Split("UserFiles", StringSplitOptions.RemoveEmptyEntries);//切割虚目录
+                        string  Virtualpath = Path[1];//获得虚路径
+                        string[] aaa = Virtualpath.Split(new char[] { '/','\\'}, StringSplitOptions.RemoveEmptyEntries);//分割路由便于拿到文件夹名字
+                        string folder = aaa[aaa.Length - 1];
+                        string[] Purl = Virtualpath.Split($"{folder}", StringSplitOptions.RemoveEmptyEntries);
+                       // int pid = Ifile.DirFind($"{Purl[0]}").ID;
+                        Model.File xxx = new Model.File
+                        {
+                            Name = folder,
+                            Size = 0,
+                            UserID = 1,
+                            Path = Virtualpath,
+                           // ParentID = pid
+                        };
                     }
                 }
                 else if (dir == " " && fileName != "")
@@ -366,8 +388,9 @@ namespace MoeCloud.Api.Controllers
                             break;
                         }
                     }
-
+                   
                     streamWriter.Close();
+                  
                 }
             }
             s.Close();
