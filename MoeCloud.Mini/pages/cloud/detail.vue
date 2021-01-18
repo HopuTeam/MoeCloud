@@ -1,7 +1,7 @@
 <template>
 	<view class="fileInfo">
 		<image v-if="type == 'avi' || type == '3gp'" src="/static/files/video.png"></image>
-		<image v-else-if="type == 'docx' || type == 'doc'" src="/static/files/word.png"></image>
+		<image v-else-if="type == 'doc' || type == 'docx'" src="/static/files/word.png"></image>
 		<image v-else-if="type == 'ppt' || type == 'pptx'" src="/static/files/ppt.png"></image>
 		<image v-else-if="type == 'xls' || type == 'xlsx'" src="/static/files/xlsx.png"></image>
 		<image v-else-if="type == 'gif'" src="/static/files/gif.png"></image>
@@ -23,14 +23,15 @@
 <script>
 	export default {
 		onLoad(e) {
-			uni.setStorageSync('fileName', e.name);
+			this.type = e.name.split('.')[1];
+			// uni.setStorageSync('fileName', e.name);
 			uni.setNavigationBarTitle({
 				title: e.name
 			});
 		},
 		data() {
 			return {
-				type: uni.getStorageSync('fileName').split('.')[1]
+				type: null
 			}
 		},
 		onPullDownRefresh() {
