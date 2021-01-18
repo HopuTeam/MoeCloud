@@ -2,8 +2,8 @@
 	<view>
 		<uni-search-bar radius="100" placeholder="搜索文件" @confirm="search" />
 		<uni-list>
-			<uni-list-item :to="`./view?id=1&dir=测试`" title="测试" note="2021-1-15 8:00" showArrow thumb="/static/files/dir.png" thumb-size="base" />
-			<uni-list-item :to="`./detail?id=1&name=测试.pptx`" title="测试.pptx" note="2021-1-15 8:00" thumb="/static/files/ppt.png" thumb-size="base" />
+			<uni-list-item :to="`./view?id=1&dir=测试`" title="测试" note="2021-1-15 08:08" showArrow thumb="/static/files/dir.png" thumb-size="base" />
+			<uni-list-item :to="`./detail?id=1&name=测试.pptx`" title="测试.pptx" note="2021-1-15 08:08" thumb="/static/files/ppt.png" thumb-size="base" />
 		</uni-list>
 		<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction" @trigger="trigger" />
 	</view>
