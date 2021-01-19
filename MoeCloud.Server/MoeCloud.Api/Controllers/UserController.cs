@@ -48,6 +48,7 @@ namespace MoeCloud.Api.Controllers
         }
         #endregion
 
+        // 用户登录
         [AllowAnonymous]
         [HttpPost]
         public Result Sign([FromBody] Model.User user)
@@ -56,21 +57,25 @@ namespace MoeCloud.Api.Controllers
             if (mod == null)
                 return Result.Failed("用户名或密码错误");
 
-            var info = new
-            {
-                mod.ID,
-                mod.Account,
-                mod.Email
-            };
-            return Result.Success($"{ mod.Account },欢迎回来", Jwt.GetToken(info));
+            return Result.Success($"{ mod.Account },欢迎回来", Jwt.GetToken(new { mod.ID }));
         }
 
+        // 用户注册
         [AllowAnonymous]
         [HttpPost]
         public Result Register([FromBody] Model.User user)
         {
+            if (user.Account == null || user.Email == null || user.Password == null)
+                return Result.Failed("数据异常，请重试");
+
+            user.Active = false;
+            user.Status = true;
+            user.RoleID = 2;
+            user.EntryTime = DateTime.Now;
+            //user.UseSize = 0;
+
             if (Iuser.AddUser(user))
-                return Result.Success($"用户{ user.Account }注册成功");
+                return Result.Success("注册成功");
             else
                 return Result.Failed("服务器返回异常");
         }
@@ -87,21 +92,88 @@ namespace MoeCloud.Api.Controllers
             return Result.Success("ok", new { mod.UseSize, Irole.GetRole(mod.RoleID).MaxSize });
         }
 
+        // 密码重置接口
         [Authorize]
         [HttpPost]
         public Result Reset([FromBody] Model.User user)
         {
+            // 判断是否传数据
             if (user.Account == null || user.Email == null || user.Password == null)
                 return Result.Failed("数据异常");
 
+            // 判断用户传输数据是否相同
             var mod = Iuser.GetUser(0, user.Account, user.Email);
             if (mod.Email != user.Email || mod.Account != user.Account)
-                return Result.Failed("数据异常");
+                return Result.Failed("用户数据信息异常");
 
             if (Iuser.RestPassword(mod.ID, user.Password))
                 return Result.Success("密码重置成功");
 
+            // 抛出异常，记录日志表LogInfo
             return Result.Failed("重置失败，请重试");
         }
+
+        // 获取个人信息(用户端
+        [Authorize]
+        [HttpPost]
+        public Result GetInfo(int ID)
+        {
+            var user = Iuser.GetUser(ID);
+            if (user == null)
+                return Result.Failed("数据获取异常");
+
+            return Result.Success("ok", new { user.Account, user.Active, user.Email, user.EntryTime, Irole.GetRole(user.RoleID).Name });
+        }
+        // 获取用户信息(管理员端
+        [Authorize]
+        [HttpPost]
+        public Result GetUsersList(int ID)
+        {
+            if (Iuser.GetUser(ID).RoleID == 1)
+                return Result.Success("ok", Iuser.GetUsers());
+            else
+                return Result.Failed("权限不足");
+        }
+
+        // 修改个人信息(用户端
+        [Authorize]
+        [HttpPost]
+        public Result EditInfo(Model.User user)
+        {
+            if (Iuser.EditUser(user))
+                return Result.Success("ok");
+
+            return Result.Failed("数据异常");
+        }
+        // 修改用户信息(管理员端
+        [Authorize]
+        [HttpPost]
+        public Result EditUserInfo(int ID, Model.User user)
+        {
+            if (Iuser.GetUser(ID).RoleID == 1)
+            {
+                if (Iuser.EditUser(user))
+                    return Result.Success("ok");
+
+                return Result.Failed("数据异常");
+            }
+            else
+            {
+                return Result.Failed("权限不足");
+            }
+        }
+
+        /// <summary>
+        /// 修改密码(仅供用户使用
+        /// </summary>
+        /// <param name="auth">true为密码验证，false为邮箱验证码验证</param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        //[Authorize]
+        //[HttpPost]
+        //public Result EditPass(bool auth, Model.User user)
+        //{
+
+        //}
     }
 }

@@ -16,7 +16,12 @@ namespace MoeCloud.Logic
         //登录
         public Model.User Sign(Model.User user)
         {
-            return EF.Users.FirstOrDefault(x => x.Account == user.Account && x.Password == Common.Security.MD5Encrypt32(user.Password));
+            if (user.Account == null)
+                return EF.Users.FirstOrDefault(x => x.Email == user.Email && x.Password == Common.Security.MD5Encrypt32(user.Password));
+            else if (user.Email == null)
+                return EF.Users.FirstOrDefault(x => x.Account == user.Account && x.Password == Common.Security.MD5Encrypt32(user.Password));
+            else
+                return null;
         }
 
         //获取所有用户信息
@@ -97,7 +102,7 @@ namespace MoeCloud.Logic
                     mod.Email = user.Email;
                     mod.Active = false;
                 }
-                if (user.Account != null)
+                if (user.Account != null && mod.Account != user.Account)
                     mod.Account = user.Account;
                 EF.SaveChanges();
                 return true;
@@ -108,7 +113,7 @@ namespace MoeCloud.Logic
             }
         }
 
-        //update useSize
+        // 更新用户已使用的存储
         public bool UpdateUseSize(int id, long useSize)
         {
             try
@@ -141,7 +146,7 @@ namespace MoeCloud.Logic
         }
 
         /// <summary>
-        /// 改变账户的邮箱激活状态(用于修改绑定邮箱、注册用户等)
+        /// 改变账户的邮箱激活状态(用于修改绑定邮箱、注册用户等)[暂时定义在管理员端操作]
         /// </summary>
         /// <param name="id">ID</param>
         /// <returns></returns>
