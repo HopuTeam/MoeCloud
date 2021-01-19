@@ -20,9 +20,9 @@
 		<br /><br />
 		<text>{{fileName}}</text>
 		<br />
-		<text style="font-size: 12rpx;color: #576064;">{{fileDate}}</text>
+		<text style="font-size: 12px;color: #576064;">{{fileDate}}</text>
 		<br />
-		<text style="font-size: 14rpx;color: #576064;">{{fileSize}}</text>
+		<text style="font-size: 14px;color: #576064;">{{fileSize}}</text>
 		<br />
 		<view class="btnClass">
 			<button @click="viewOffice" type="primary">预览</button>
@@ -45,6 +45,7 @@
 		},
 		data() {
 			return {
+				type: null,
 				fileSize: '3.51MB',
 				fileDate: '2021-1-15 08:08'
 			}
@@ -52,7 +53,6 @@
 		onPullDownRefresh() {
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
-				location.reload();
 			}, 1000);
 		},
 		methods: {

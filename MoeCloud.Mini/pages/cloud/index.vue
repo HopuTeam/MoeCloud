@@ -91,7 +91,6 @@
 		onPullDownRefresh() {
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
-				location.reload();
 			}, 1000);
 		}
 	}
