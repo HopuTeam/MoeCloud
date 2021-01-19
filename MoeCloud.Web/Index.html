@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-     <link href="/static/webuploader/webuploader.css" rel="stylesheet"/>
+     <link href="./static/webuploader/webuploader.css" rel="stylesheet"/>
 </head>
 <body>
     <h2>Index</h2>
@@ -24,13 +24,13 @@
         <button id="pause" class="btn btn-danger">暂停上传</button>
     </div>
 </div>
-<script src="/static/js/jquery.min.js"></script>
-<script src="/static/webuploader/webuploader.min.js"></script>
+<script src="./static/js/jquery.min.js"></script>
+<script src="./static/webuploader/webuploader.min.js"></script>
 <script type="text/javascript">
     $(function () {
         var GUID = WebUploader.Base.guid();//一个GUID
         var uploader = WebUploader.create({
-            swf: '/static/webuploader/Uploader.swf',
+            swf: './static/webuploader/Uploader.swf',
             server: 'https://localhost:44393/FileUpload/Upload',
             //pick: '#picker',
             pick: {

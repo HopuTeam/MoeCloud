@@ -31,6 +31,59 @@ namespace MoeCloud.Api.Controllers
             this.jwt = jwt;
             this.Ifile = Ifile;
         }
+        public class Result
+        {
+            public bool State { get; set; }
+            public object Data { get; set; }
+            public string Message { get; set; }
+            public int Code { get; set; }
+            public static Result Success(string _message = "", object _data = null)
+            {
+                return new Result()
+                {
+                    State = true,
+                    Message = _message,
+                    Data = _data
+                };
+            }
+            public static Result Failed(string _message = "")
+            {
+                return new Result()
+                {
+                    State = false,
+                    Message = _message
+                };
+            }
+        }
+        /// <summary>
+        /// 查询文件列表
+        /// </summary>
+        /// <param name="Userid">用户的ad</param>
+        /// <param name="ParentID">文件父级id</param>
+        /// <returns></returns>
+        [HttpPost]
+         public Result GetFiles([FromBody] int Userid,int ParentID)
+        {
+            List<Model.File> files = Ifile.GetFiles(Userid, ParentID).ToList();
+            var res = Newtonsoft.Json.JsonConvert.SerializeObject(files);
+            if (res != null)
+            {
+                return Result.Success("", res);
+            }
+            return Result.Failed("查不到数据");
+        }
+        /// <summary>
+        /// 查询单文件
+        /// </summary>
+        /// <param name="Userid"></param>
+        /// <param name="ParentID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result  GetFile([FromBody] int Userid, int ParentID)
+        {
+            return Result.Success("",new { File = Ifile.GetFile(Userid, ParentID) });
+        }
+
 
         #region 文件夹上传
         [HttpPost]
@@ -64,8 +117,8 @@ namespace MoeCloud.Api.Controllers
                     {
                         if (file != null)
                         {
-                            string[] path = addFile.Name.Split("UserFiles");//去除根目录
-                            string[] Thesuperior = path[1].Split($"{filename}");//文件的上级目录
+                            string[] path = addFile.Name.Split("UserFiles", StringSplitOptions.RemoveEmptyEntries);//去除根目录
+                            string[] Thesuperior = path[1].Split($"{filename}", StringSplitOptions.RemoveEmptyEntries);//文件的上级目录
                             int pid = Ifile.DirFind($"{Thesuperior[0]}").ID;//上级目录id
                             Model.File aa = new Model.File
                             {
@@ -197,10 +250,7 @@ namespace MoeCloud.Api.Controllers
         }
         #endregion
 
-
-
-
-        // [AllowAnonymous]//跳过Jwt验证     
+       [AllowAnonymous]//跳过Jwt验证     
         [HttpPost]
         public ActionResult JwtYz(int id = 1)
         {
@@ -213,7 +263,7 @@ namespace MoeCloud.Api.Controllers
 
             return Content(toKen);
         }
-        //[Authorize]//需要Jwt验证
+        [Authorize]//需要Jwt验证
         [HttpPost]
         public ActionResult Jwtcs()
         {
@@ -225,7 +275,7 @@ namespace MoeCloud.Api.Controllers
         /// <summary>
         /// 压缩
         /// </summary>
-        /// <param name="source">源目录,要压缩的文件夹，@"F:\111"</param>
+        /// <param name="strFile">源目录,要压缩的文件夹，@"F:\111"</param>
         /// <param name="strZip">压缩包的名字，111.zip</param>
         [HttpPost]
         public void ZipFile(string strFile, string strZip)
@@ -334,15 +384,16 @@ namespace MoeCloud.Api.Controllers
                         string[] aaa = Virtualpath.Split(new char[] { '/','\\'}, StringSplitOptions.RemoveEmptyEntries);//分割路由便于拿到文件夹名字
                         string folder = aaa[aaa.Length - 1];
                         string[] Purl = Virtualpath.Split($"{folder}", StringSplitOptions.RemoveEmptyEntries);
-                       // int pid = Ifile.DirFind($"{Purl[0]}").ID;
+                        int pid = Ifile.DirFind($"{Purl[0]}").ID;
                         Model.File xxx = new Model.File
                         {
                             Name = folder,
                             Size = 0,
                             UserID = 1,
                             Path = Virtualpath,
-                           // ParentID = pid
+                            ParentID = pid
                         };
+                        Ifile.Create(xxx);
                     }
                 }
                 else if (dir == " " && fileName != "")
@@ -388,9 +439,20 @@ namespace MoeCloud.Api.Controllers
                             break;
                         }
                     }
-                   
-                    streamWriter.Close();
-                  
+                    string[] Path= streamWriter.Name.Split("UserFiles", StringSplitOptions.RemoveEmptyEntries);//切割虚目录
+                    string Virtualpath = Path[1];//获得虚路径
+                    string[] Purl = Virtualpath.Split($"{fileName}", StringSplitOptions.RemoveEmptyEntries);//上级目录
+                    int pid = Ifile.DirFind($"{Purl[0]}").ID;//父级id
+                    Model.File xxx = new Model.File
+                    {
+                        Name = fileName,
+                        Size = streamWriter.Length,
+                        UserID = 1,
+                        Path = Virtualpath,
+                        ParentID = pid
+                    };
+                    Ifile.Create(xxx);
+                    streamWriter.Close();//关闭文件流                 
                 }
             }
             s.Close();

@@ -5,16 +5,16 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>WJ</title>
-    <link href="/static/mdui/css/mdui.min.css" />
-    <link href="/static/webuploader/webuploader.css" />
+  <!--  <link href="./static/mdui/css/mdui.min.css" /> -->
+    <link href="./static/webuploader/webuploader.css" />
 </head>
 <body>
     <div>
         <input type="file" name="file" webkitdirectory>
         <button id="upload" type="button" onclick="fileupload()">上传</button>
     </div>    
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/webuploader/webuploader.min.js"></script>
+    <script src="./static/js/jquery.min.js"></script>
+    <script src="./static/webuploader/webuploader.min.js"></script>
     <script>
         var files = [];
         $(document).ready(function () {
@@ -38,8 +38,8 @@
                     data: data,
                     contentType: false,
                     processData: false,
-                    success: function (data) {
-                        alert(data.success);
+                    success: function (res) {
+                        alert(res.success);
                     }
                 })
             }

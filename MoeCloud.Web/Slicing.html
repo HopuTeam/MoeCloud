@@ -24,6 +24,21 @@
     <script>   
     </script>
 <script>
+     $('#jwt01').click(function () {
+           let token=localStorage.getItem('jtw-token');       
+          $.ajax({
+             url: 'https://localhost:44393/FileUpload/Jwtcs',                     
+               headers:{
+                "Authorization":token
+               },
+               type:"post",
+              success:function(res){
+                  console.log(res);
+              }
+             
+
+            })
+        });
       $('#jwt').click(function () {
           $.ajax({
               url:'https://localhost:44393/FileUpload/JwtYz',
@@ -36,22 +51,7 @@
               }
           })
         });
-        $('#jwt01').click(function () {
-           let token=localStorage.getItem('jtw-token');
-         
-          $.ajax({
-             url: 'https://localhost:44393/FileUpload/Parsing',                     
-               headers:{
-                "Authorization":token
-               },
-               type:"post",
-              success:function(res){
-                  console.log(res);
-              }
-             
-
-            })
-        });
+       
 		$('#Zip').click(function () {
 		 $.ajax({
 		    url: 'https://localhost:44393/FileUpload/Parsing',                     

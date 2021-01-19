@@ -3,7 +3,7 @@
 		{
 			"path": "pages/cloud/index",
 			"style": {
-				"navigationBarTitleText": "云端文件"
+				"navigationBarTitleText": "云端文件"			
 			}
 		},
 		{
@@ -29,7 +29,7 @@
 		{
 			"path": "pages/user/index",
 			"style": {
-				"navigationBarTitleText": "个人信息"
+				"navigationBarTitleText": "个人信息"			
 			}
 		}
 	],
@@ -42,12 +42,13 @@
 	// },
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "MoeCloud",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
-		"enablePullDownRefresh": true
+				"navigationBarTitleText": "MoeCloud",
+				"navigationBarBackgroundColor": "#F8F8F8",
+				"backgroundColor": "#8A2BE2",
+				"enablePullDownRefresh": true
 	},
 	"tabBar": {
+		 "selectedColor": "#6495ED", //选中时的菜单文字颜色
 		"list": [ //Tab列表
 			{
 				// 	"text": "消息",
