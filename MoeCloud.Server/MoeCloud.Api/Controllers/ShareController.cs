@@ -47,7 +47,7 @@ namespace MoeCloud.Api.Controllers
         // 创建一条分享链接
         [Authorize]
         [HttpPost]
-        public Result Create(Model.Share share)
+        public Result Create([FromBody] Model.Share share)
         {
             if (share.FileID == 0 || share.UserID == 0)
                 return Result.Failed("数据异常");
@@ -61,7 +61,7 @@ namespace MoeCloud.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public Result Link(string auth)
+        public Result Link([FromBody] string auth)
         {
             //if (auth == null || auth.Length != 9)
             //    return Result.Failed("分享的文件不存在");
@@ -74,7 +74,7 @@ namespace MoeCloud.Api.Controllers
 
         [Authorize]
         [HttpPost]
-        public Result Delete(int shareID, int userID)
+        public Result Delete([FromBody] int shareID, int userID)
         {
             if (Ishare.Delete(shareID, userID))
                 return Result.Success("ok");
@@ -85,7 +85,7 @@ namespace MoeCloud.Api.Controllers
         //change share lock status
         [Authorize]
         [HttpPost]
-        public Result LockStatus(int shareID)
+        public Result LockStatus([FromBody] int shareID)
         {
             if (Ishare.Swich(shareID))
                 return Result.Success("ok");
@@ -96,7 +96,7 @@ namespace MoeCloud.Api.Controllers
         // 管理员获取所有分享的文件信息
         [Authorize]
         [HttpPost]
-        public Result  GetList(int userID)
+        public Result  GetList([FromBody] int userID)
         {
             return Result.Success("ok", new { List = Ishare.GetList(userID) });
         }
