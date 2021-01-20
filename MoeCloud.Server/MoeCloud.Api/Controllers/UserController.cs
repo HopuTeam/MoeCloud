@@ -51,7 +51,7 @@ namespace MoeCloud.Api.Controllers
         // 用户登录
         [AllowAnonymous]
         [HttpPost]
-        public Result Sign([FromBody] Model.User user)
+        public Result Sign([FromForm] Model.User user)
         {
             var mod = Iuser.Sign(user);
             if (mod == null)
@@ -63,7 +63,7 @@ namespace MoeCloud.Api.Controllers
         // 用户注册
         [AllowAnonymous]
         [HttpPost]
-        public Result Register([FromBody] Model.User user)
+        public Result Register([FromForm] Model.User user)
         {
             if (user.Account == null || user.Email == null || user.Password == null)
                 return Result.Failed("数据异常，请重试");
@@ -83,7 +83,7 @@ namespace MoeCloud.Api.Controllers
         //刷新用户已使用的存储
         [Authorize]
         [HttpPost]
-        public Result UseSize([FromBody] int ID)
+        public Result UseSize([FromForm] int ID)
         {
             var mod = Iuser.GetUser(ID);
             if (mod == null)
@@ -95,7 +95,7 @@ namespace MoeCloud.Api.Controllers
         // 密码重置接口
         [Authorize]
         [HttpPost]
-        public Result Reset([FromBody] Model.User user)
+        public Result Reset([FromForm] Model.User user)
         {
             // 判断是否传数据
             if (user.Account == null || user.Email == null || user.Password == null)
@@ -116,7 +116,7 @@ namespace MoeCloud.Api.Controllers
         // 获取个人信息(用户端
         [Authorize]
         [HttpPost]
-        public Result GetInfo([FromBody] int ID)
+        public Result GetInfo([FromForm] int ID)
         {
             var user = Iuser.GetUser(ID);
             if (user == null)
@@ -127,7 +127,7 @@ namespace MoeCloud.Api.Controllers
         // 获取用户信息(管理员端
         [Authorize]
         [HttpPost]
-        public Result GetUsersList([FromBody] int ID)
+        public Result GetUsersList([FromForm] int ID)
         {
             if (Iuser.GetUser(ID).RoleID == 1)
                 return Result.Success("ok", Iuser.GetUsers());
@@ -138,7 +138,7 @@ namespace MoeCloud.Api.Controllers
         // 修改个人信息(用户端
         [Authorize]
         [HttpPost]
-        public Result EditInfo([FromBody] Model.User user)
+        public Result EditInfo([FromForm] Model.User user)
         {
             if (Iuser.EditUser(user))
                 return Result.Success("ok");
@@ -148,7 +148,7 @@ namespace MoeCloud.Api.Controllers
         // 修改用户信息(管理员端
         [Authorize]
         [HttpPost]
-        public Result EditUserInfo([FromBody] int ID, Model.User user)
+        public Result EditUserInfo([FromForm] int ID, Model.User user)
         {
             if (Iuser.GetUser(ID).RoleID == 1)
             {
@@ -171,7 +171,7 @@ namespace MoeCloud.Api.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public Result EditPass([FromBody] bool auth, Model.User user)
+        public Result EditPass([FromForm] bool auth, Model.User user)
         {
             if (auth)
             {

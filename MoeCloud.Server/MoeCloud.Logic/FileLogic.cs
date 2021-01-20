@@ -96,7 +96,7 @@ namespace MoeCloud.Logic
         /// <returns>返回Model数据</returns>
         public Model.File GetFile(int userID, int fileID)
         {
-            return EF.Files.FirstOrDefault(x => x.UserID == userID && x.ID == fileID && x.DelTime == null);
+            return EF.Files.FirstOrDefault(x => x.UserID == userID && x.ParentID == fileID && x.DelTime == null);
         }
 
         /// <summary>
