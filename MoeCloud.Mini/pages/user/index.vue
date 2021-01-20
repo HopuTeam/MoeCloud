@@ -1,70 +1,82 @@
 <template>
 	<view class="view-body">
 		<view class="User">		
-         <view><img class="touxiang" src="/static/logo.png" alt=""></view>
-		  <view class="User-name">{{name}}</view>					
+         <view class="User-img">
+			 <img class="touxiang" src="/static/logo.png" alt="">		
+		 </view>
+		 <view class="User-One">
+		  <view class="User-name">{{name}}</view>
+		  <view class="User-Theprogressbar">
+			  <view class="User-Theprogressbar-Theactual"></view>
+		 </view>
+		  <view class="User-One-Thefont" > {{Withsize}} / {{Totalsize}}</view>	
+		 </view>		 					   
 		</view>
 		<!-- 功能列表 -->
 		<view class="Functionofthecolumn-body">			
 			<view class="Functionofthecolumn">
-				<view style="font-size: 16px;margin-left: 20px;font-weight: bold;color: #2C405A;">网盘功能</view>
-				<view class="Functionofthecolumn-view">
-					<navigator class="Thelistof" url="../home/index" >
-						<img class="Thelistof-img" src="/static/logo.png"></img>
-						<text class="Thelistof-text">手机备份</text>
-					</navigator>
+				<view style="font-size: 16px;margin-left: 20px;font-weight: bold;color: #2C405A;">网盘功能</view>				
+				<view class="Functionofthecolumn-noe">
+					<view class="Functionofthecolumn-view">
+						<navigator class="Thelistof" url="../home/index" >
+							<img class="Thelistof-img" src="/static/logo.png"></img>
+							<text class="Thelistof-text">手机备份</text>
+						</navigator>
+						</view>
+					<view class="Functionofthecolumn-view">
+						<navigator class="Thelistof" url="../home/index" >
+							<img class="Thelistof-img" src="/static/logo.png"></img>
+							<text class="Thelistof-text">回收站</text>
+						</navigator>
+					</view>	
+					<view class="Functionofthecolumn-view">
+						<navigator class="Thelistof" url="../home/index" >
+							<img class="Thelistof-img" src="/static/logo.png"></img>
+							<text class="Thelistof-text">我的会员</text>
+						</navigator>
+					</view>	
+					<view class="Functionofthecolumn-view">
+						<navigator class="Thelistof" url="../home/index" >
+							<img class="Thelistof-img" src="/static/logo.png"></img>
+							<text class="Thelistof-text">传输助手</text>
+						</navigator>
+					</view>											
 				</view>	
-				<view class="Functionofthecolumn-view">
-					<navigator class="Thelistof" url="../home/index" >
-						<img class="Thelistof-img" src="/static/logo.png"></img>
-						<text class="Thelistof-text">手机备份</text>
-					</navigator>
-				</view>
-				<view class="Functionofthecolumn-view">
-					<navigator class="Thelistof" url="../home/index" >
-						<img class="Thelistof-img" src="/static/logo.png"></img>
-						<text class="Thelistof-text">手机备份</text>
-					</navigator>
-				</view>	
-				<view class="Functionofthecolumn-view">
-					<navigator class="Thelistof" url="../home/index" >
-						<img class="Thelistof-img" src="/static/logo.png"></img>
-						<text class="Thelistof-text">手机备份</text>
-					</navigator>
-				</view>	
-				<view class="Functionofthecolumn-view">
-					<navigator class="Thelistof" url="../home/index" >
-						<img class="Thelistof-img" src="/static/logo.png"></img>
-						<text class="Thelistof-text">手机备份</text>
-					</navigator>
-				</view>	
-				<view class="Functionofthecolumn-view">
-					<navigator class="Thelistof" url="../home/index" >
-						<img class="Thelistof-img" src="/static/logo.png"></img>
-						<text class="Thelistof-text">手机备份</text>
-					</navigator>
-				</view>	
-				<view class="Functionofthecolumn-view">
-					<navigator class="Thelistof" url="../home/index" >
-						<img class="Thelistof-img" src="/static/logo.png"></img>
-						<text class="Thelistof-text">手机备份</text>
-					</navigator>
-				</view>	
-				<view class="Functionofthecolumn-view">
-					<navigator class="Thelistof" url="../home/index" >
-						<img class="Thelistof-img" src="/static/logo.png"></img>
-						<text class="Thelistof-text">手机备份</text>
-					</navigator>
-				</view>											
-			</view>
-			
+				<view class="Functionofthecolumn-noe">
+					<view class="Functionofthecolumn-view">
+						<navigator class="Thelistof" url="../home/index" >
+							<img class="Thelistof-img" src="/static/logo.png"></img>
+							<text class="Thelistof-text">离线下载</text>
+						</navigator>
+						</view>
+					<view class="Functionofthecolumn-view">
+						<navigator class="Thelistof" url="../home/index" >
+							<img class="Thelistof-img" src="/static/logo.png"></img>
+							<text class="Thelistof-text">闪电互传</text>
+						</navigator>
+					</view>	
+					<view class="Functionofthecolumn-view">
+						<navigator class="Thelistof" url="../home/index" >
+							<img class="Thelistof-img" src="/static/logo.png"></img>
+							<text class="Thelistof-text">清理文件</text>
+						</navigator>
+					</view>	
+					<view class="Functionofthecolumn-view">
+						<navigator class="Thelistof" url="../home/index" >
+							<img class="Thelistof-img" src="/static/logo.png"></img>
+							<text class="Thelistof-text">离线数据</text>
+						</navigator>
+					</view>											
+				</view>										
+												
+			</view>			
 		</view>
 		<!-- 设置 -->
 		<view class="Setupthe-body">
 			<navigator class="Setupthe-Thelistof"><se-text class="Setupthe-se">夜间模式</se-text> </navigator>
 			<navigator class="Setupthe-Thelistof"><se-text class="Setupthe-se">设置</se-text> </navigator>
 			<navigator class="Setupthe-Thelistof"><se-text class="Setupthe-se">用户反馈</se-text> </navigator>
-			<view class="" style="margin-top: 10px;"><button>退出</button></view>
+			<view class="" style="margin-top: 10px;"><button style="color:#FF0000;">退出</button></view>
 		</view>
 	</view>
 </template>
@@ -73,7 +85,9 @@
 	export default {
 		data() {
 			return {
-				name: '李四'
+				name: '李四',
+				Withsize:'500M',
+				Totalsize:'1GB'
 			}
 		},
 		onLoad() {
@@ -97,23 +111,50 @@
 	.User{
 		width: 100%;
 		height:60px;
-		border-style:solid ;
-		border-color: #0000FF;
+		margin-left:4% ;
 		margin-bottom: 10px;
-	}
-	.User view{
-		float: left;
+	   
 	}
 	.User-name{
-		text-align: center;
-		line-height: 60px;
-		margin-left: 5px;
-		}
+		font-size: 12px;
+		margin-top: 5px;
+		 font-weight: 700;  
+	}
+	.User-img{
+		width: 55px;
+		height: 100%;
+		float: left;		
+	}
+	.User-One{
+		width: 150px;
+		height: 50%;
+		float: left;
+		padding-left: 10px;
+	}
+	.User-Theprogressbar{
+		width: 100%;
+		height: 5px;
+		margin-top: 5px;
+		background-color:#BEBEBE;
+		margin-top: 5px;
+	}
+	.User-Theprogressbar-Theactual{
+		width: 50%;
+		height: 100%;
+		background-color:#FFC125;
+	}
+	.User-One-Thefont{
+		float: left;
+		font-size: 10px;
+		margin-top: 5px;
+		font-size: 20upx;
+		color: #778899;
+	}
 	.touxiang{
 		border-radius: 100px;		
-		border-width: 1px 2px 2px 1px;
+		border-width: 1px 1px 1px 1px;
 		border-style:dashed ;
-		border-color:#1AAD19;
+		border-color:#87CEEB;
 		width: 50px;
 		height: 50px;		
 	}
@@ -121,7 +162,7 @@
 	.Functionofthecolumn-body{		
 		margin:0 auto;
 		width: 100%;
-		height:250px ;
+		height:250px ;		
 	}
 	.Functionofthecolumn{	
 		width: 90%;
@@ -137,6 +178,10 @@
 			margin-left: 10px;									
              height: 60px;	
 		     margin-top:30px ;
+		}
+		.Functionofthecolumn-noe{
+			flex-direction: row;
+			display: flex;
 		}
 		.Thelistof{
 		width: 60px;		 
@@ -166,8 +211,7 @@
 		.Setupthe-Thelistof{
 			width: 95%;
 			height: 60px;
-			 border-style:solid ;
-			 border-color: #0000FF;
+			/* */
 			 padding-left: 5%;
 			 display: block;
 		}

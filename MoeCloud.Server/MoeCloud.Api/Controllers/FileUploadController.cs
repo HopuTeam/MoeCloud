@@ -86,9 +86,14 @@ namespace MoeCloud.Api.Controllers
 
 
         #region 文件夹上传
+        /// <summary>
+        /// 文件夹上传
+        /// </summary>
+        /// <param name="strPath">上传文件的路径</param>
+        /// <returns></returns>
         [HttpPost]
         //文件夹上传
-        public IActionResult UpLoadOne(string strPath = "/1/aaa")
+        public IActionResult UpLoadOne([FromBody] string strPath)
         {
             var files = Request.Form.Files;
             var User = HttpContext.Request.GetModel<User>();   //当前登录账户     
@@ -167,7 +172,7 @@ namespace MoeCloud.Api.Controllers
         /// 文件目录如果不存在，就创建一个新的目录
         /// </summary>
         /// <param name="path"></param>
-        private void DicCreate(string path, string thname, int Userid)
+        private void DicCreate([FromBody]  string path, string thname, int Userid)
         {
             if (!Directory.Exists(path))
             {
@@ -278,9 +283,8 @@ namespace MoeCloud.Api.Controllers
         /// <param name="strFile">源目录,要压缩的文件夹，@"F:\111"</param>
         /// <param name="strZip">压缩包的名字，111.zip</param>
         [HttpPost]
-        public void ZipFile(string strFile, string strZip)
-        {
-            strFile = @"D:\厚朴作业\.NETCore\测试上传\压缩";
+        public void ZipFile([FromBody] string strFile, string strZip)
+        {          
             strZip = "2.zip";
             var uploadDir = Env.ContentRootPath + @"/Upload/测试/";//Upload 文件夹                     
             if (!Directory.Exists(uploadDir))
