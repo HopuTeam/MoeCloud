@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="content">
 		<web-view :src="url"></web-view>
 	</view>
 </template>

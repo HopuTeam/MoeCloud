@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="content">
 		<uni-list-chat key="0" :title="title" avatar="/static/logo.png" :note="note">
 			<view class="chat-custom-right">
 				<text class="chat-custom-text">刚刚</text>

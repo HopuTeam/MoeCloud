@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="content">
 		<uni-search-bar radius="100" placeholder="搜索文件" @confirm="search" />
 		<uni-list>
 			<uni-list-item :to="`./view?id=1&dir=文件夹`" title="文件夹" note="2021-1-15 08:08" showArrow thumb="/static/files/dir.png" />
@@ -97,5 +97,5 @@
 </script>
 
 <style>
-
+	
 </style>

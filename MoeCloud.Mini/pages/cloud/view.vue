@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="content">
 		<uni-search-bar radius="100" placeholder="搜索文件" @confirm="search" />
 		<uni-list>
 			<uni-list-item :to="`./view?id=1&dir=测试`" title="测试" note="2021-1-15 08:08" showArrow thumb="/static/files/dir.png" thumb-size="base" />

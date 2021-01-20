@@ -1,7 +1,7 @@
 <template>
-	<view>
+	<view class="content">
 		<view style="width: 100%;">
-			<view style="text-align: center;margin: 24rpx 0px;">
+			<view style="text-align: center;padding: 24rpx 0px;">
 				<image class="touxiang" src="/static/logo.png"></image>
 				<view>{{name}}</view>
 				<view class="progress-box">

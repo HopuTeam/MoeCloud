@@ -1,5 +1,5 @@
 <template>
-	<view class="fileInfo">
+	<view class="content">
 		<image v-if="type == 'avi' || type == '3gp' || type == 'mkv' || type == 'rmvb'" src="/static/files/video.png"></image>
 		<image v-else-if="type == 'doc' || type == 'docx'" src="/static/files/doc.png"></image>
 		<image v-else-if="type == 'ppt' || type == 'pptx'" src="/static/files/ppt.png"></image>
@@ -67,14 +67,14 @@
 </script>
 
 <style>
-	.fileInfo {
+	.content {
 		width: 100%;
 		height: 100%;
 		padding-top: 180rpx;
 		text-align: center;
 	}
 
-	.fileInfo image {
+	.content image {
 		width: 64px;
 		height: 64px;
 	}
