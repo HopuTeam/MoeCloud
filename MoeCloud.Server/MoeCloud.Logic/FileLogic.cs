@@ -92,11 +92,11 @@ namespace MoeCloud.Logic
         /// 用户查询自己的文件详细信息
         /// </summary>
         /// <param name="userID">用户的ID</param>
-        /// <param name="parentID">目录ID，默认0为根目录</param>
-        /// <returns>返回List数据</returns>
-        public Model.File GetFile(int userID, int parentID)
+        /// <param name="fileID">文件ID</param>
+        /// <returns>返回Model数据</returns>
+        public Model.File GetFile(int userID, int fileID)
         {
-            return EF.Files.Where(x => x.UserID == userID && x.ParentID == parentID && x.DelTime == null).FirstOrDefault();
+            return EF.Files.FirstOrDefault(x => x.UserID == userID && x.ID == fileID && x.DelTime == null);
         }
 
         /// <summary>

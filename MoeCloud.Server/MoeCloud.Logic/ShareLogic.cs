@@ -17,18 +17,33 @@ namespace MoeCloud.Logic
         public Model.Share Create(Model.Share share)
         {
             share.AddTime = DateTime.Now;
-            share.Link = "/s/" + Common.Security.MD5Encrypt32(share.FileID.ToString()).Substring(new Random().Next(1, 19), 9).ToLower();
+            share.Link = Common.Security.MD5Encrypt32(share.FileID.ToString()).Substring(new Random().Next(1, 19), 9).ToLower();
             EF.Add(share);
-            EF.SaveChanges();
-            return share;
+            if (EF.SaveChanges() > 0)
+                return share;
+            else
+                return null;
+        }
+
+        // 查看分享的详情内容
+        public List<Model.File> GetDetail(string auth)
+        {
+            return (from s in EF.Shares
+                    join f in EF.Files on s.FileID equals f.ID
+                    where s.Link == auth
+                    select f).ToList();
         }
 
         // delete a share
-        public bool Delete(int id)
+        public bool Delete(int id, int userID)
         {
             try
             {
-                EF.Remove(EF.Shares.FirstOrDefault(x => x.ID == id));
+                if (userID == 0)
+                    EF.Remove(EF.Shares.Where(x => x.ID == id));
+                else
+                    EF.Remove(EF.Shares.Where(x => x.ID == id && x.UserID == userID));
+
                 EF.SaveChanges();
                 return true;
             }

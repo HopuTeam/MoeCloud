@@ -116,7 +116,7 @@ namespace MoeCloud.Api.Controllers
         // 获取个人信息(用户端
         [Authorize]
         [HttpPost]
-        public Result GetInfo(int ID)
+        public Result GetInfo([FromBody] int ID)
         {
             var user = Iuser.GetUser(ID);
             if (user == null)
@@ -127,7 +127,7 @@ namespace MoeCloud.Api.Controllers
         // 获取用户信息(管理员端
         [Authorize]
         [HttpPost]
-        public Result GetUsersList(int ID)
+        public Result GetUsersList([FromBody] int ID)
         {
             if (Iuser.GetUser(ID).RoleID == 1)
                 return Result.Success("ok", Iuser.GetUsers());
@@ -138,7 +138,7 @@ namespace MoeCloud.Api.Controllers
         // 修改个人信息(用户端
         [Authorize]
         [HttpPost]
-        public Result EditInfo(Model.User user)
+        public Result EditInfo([FromBody] Model.User user)
         {
             if (Iuser.EditUser(user))
                 return Result.Success("ok");
@@ -148,7 +148,7 @@ namespace MoeCloud.Api.Controllers
         // 修改用户信息(管理员端
         [Authorize]
         [HttpPost]
-        public Result EditUserInfo(int ID, Model.User user)
+        public Result EditUserInfo([FromBody] int ID, Model.User user)
         {
             if (Iuser.GetUser(ID).RoleID == 1)
             {
@@ -169,11 +169,26 @@ namespace MoeCloud.Api.Controllers
         /// <param name="auth">true为密码验证，false为邮箱验证码验证</param>
         /// <param name="user"></param>
         /// <returns></returns>
-        //[Authorize]
-        //[HttpPost]
-        //public Result EditPass(bool auth, Model.User user)
-        //{
+        [Authorize]
+        [HttpPost]
+        public Result EditPass([FromBody] bool auth, Model.User user)
+        {
+            if (auth)
+            {
+                // 通过密码验证来修改密码
+                if (Iuser.GetUser(user.ID).Password != Common.Security.MD5Encrypt32(user.Password))
+                    return Result.Failed("原密码不正确");
+            }
+            else
+            {
+                // 通过邮箱验证码来修改密码
+                return Result.Failed("暂未开放");
+            }
 
-        //}
+            if (Iuser.EditPassword(user.ID, user.Password))
+                return Result.Failed("密码修改成功");
+
+            return Result.Failed("数据异常");
+        }
     }
 }
