@@ -10,7 +10,7 @@ namespace MoeCloud.ILogic
         bool Cycle(int id, int delDay);
         bool DelFile(int id);
         bool EditName(int id, string Name);
-        Model.File GetFile(int userID, int fileID)
+        Model.File GetFile(int userID, int fileID);
         List<Model.File> GetFiles(int userID, int parentID);
         List<Model.File> GetCycleFiles(int userID);
         List<Model.File> GetAllFiles();
