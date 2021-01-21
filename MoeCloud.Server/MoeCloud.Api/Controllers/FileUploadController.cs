@@ -94,18 +94,12 @@ namespace MoeCloud.Api.Controllers
         [HttpPost]
         //文件夹上传
         public IActionResult UpLoadOne([FromForm] int ID,int Pid)
-        {
-            ID = 1;
-            Pid = 0;
+        {        
             string strPath = string.Empty;
             var files = Request.Form.Files;
             //var User = HttpContext.Request.GetModel<User>();   //当前登录账户     
             int a = 0;
-          
-                strPath = Ifile.GetFile(ID, Pid).Path;//父级目录
-           
-          
-         
+            strPath = Ifile.GetFile(ID, Pid).Path;//父级目录         
             long Size = files.Sum(f => f.Length);//计算文件大小          
             string rootpath = $"{Env.ContentRootPath}/Upload/UserFiles" + strPath; //获取根目录
             try
@@ -209,12 +203,12 @@ namespace MoeCloud.Api.Controllers
 
         #region 分片上传
         [HttpPost]
-        public ActionResult Upload()
+        public ActionResult Upload([FromBody]  Model.File view)
         {
             //string fileName = Request.Form["name"];
             int index = Convert.ToInt32(Request.Form["chunk"]);//当前分块序号
             var guid = Request.Form["guid"];//前端传来的GUID号
-            var dir = $"{ Env.ContentRootPath }/Upload/UserFiles/{1}/aaa/{ guid }/";//临时保存分块的目录
+            var dir = Env.ContentRootPath + @"/Upload/UserFiles" + view.Path;//临时保存分块的目录
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             string filePath = dir + index.ToString();//分块文件名为索引名，更严谨一些可以加上是否存在的判断，防止多线程时并发冲突
@@ -222,17 +216,17 @@ namespace MoeCloud.Api.Controllers
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 data.CopyTo(stream);
-            }
-            return Ok(new { error = 0 });
+            }           
+            return Ok(new { error = "ok" });
         }
 
-        public ActionResult Merge([FromForm] string strPath )//1是模拟用户id
+        public ActionResult Merge([FromBody] Model.File view)//1是模拟用户id
         {
 
-            var uploadDir = Env.ContentRootPath + @"/Upload/UserFiles" + strPath;//Upload 文件夹          
+            var uploadDir = Env.ContentRootPath + @"/Upload/UserFiles" + view.Path;//Upload 文件夹          
             var dir = Path.Combine(uploadDir, Request.Form["guid"]);//临时文件夹
             string fileName = Request.Form["fileName"];
-            var fs = new FileStream(Path.Combine(uploadDir, fileName), FileMode.Create);
+            var fs = new FileStream(Path.Combine(uploadDir), FileMode.Create);
             foreach (var part in Directory.GetFiles(dir).OrderBy(x => x.Length).ThenBy(x => x))//排一下序，保证从0-N Write
             {
                 var bytes = System.IO.File.ReadAllBytes(part);
@@ -246,13 +240,13 @@ namespace MoeCloud.Api.Controllers
             long size = fs.Length;
             string[] lij = fs.Name.Split("UserFiles");
             string path = lij[1];
-            int pid = Ifile.DirFind($"{strPath}/").ID;
-            var User = HttpContext.Request.GetModel<User>();   //当前登录账户        
+            int pid = Ifile.GetFile(view.ID, view.ParentID).ID;
+           // var User = HttpContext.Request.GetModel<User>();   //当前登录账户        
             Model.File aa = new Model.File
             {
                 Name = fileName,
                 Size = size,
-                UserID = User.ID,
+                UserID = view.ID,
                 Path = path,
                 ParentID = pid
             };
@@ -274,9 +268,9 @@ namespace MoeCloud.Api.Controllers
         [HttpPost]
         public void ZipFile([FromForm] Model.File view)
         {
-            string StrFile = Env.ContentRootPath + @"\Upload\UserFiles\" + view.Path;//拼接根目录拿到文件
-            string Theparentdirectory = Ifile.GetFile(view.ID, view.ParentID).Path;  //父级路径
-            string Savethepath = Theparentdirectory;
+            string StrFile = Env.ContentRootPath + @"\Upload\UserFiles\" + view.Path;//拼接根目录拿到文件          
+            string Theparentdirectory = Ifile.GetFile(view.ID, view.ParentID).Path;  //父级路径        
+            string Savethepath = Env.ContentRootPath + @"\Upload\UserFiles\"+ Theparentdirectory;
             string staticFile = view.Name + ".zip"; //压缩文件的名字
                 if (!Directory.Exists(Savethepath)) //创建保存的文件夹
                 {
@@ -495,9 +489,8 @@ namespace MoeCloud.Api.Controllers
 
             return lj;
         }
+        #endregion      
 
-
-        #endregion
     }
 
 }
