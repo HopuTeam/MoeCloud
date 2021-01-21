@@ -41,10 +41,15 @@ namespace MoeCloud.Web.Controllers
         }
         #endregion
 
+        // 页面用于给用户读取分享的文件，前端调用Link接口
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         // 创建一条分享链接
-       
         [HttpPost]
-        public Result Create([FromForm] Model.Share share)
+        public Result Create(Model.Share share)
         {
             if (share.FileID == 0 || share.UserID == 0)
                 return Result.Failed("数据异常");
@@ -56,12 +61,9 @@ namespace MoeCloud.Web.Controllers
             return Result.Success("ok", new { shareInfo.Link });
         }
 
-       
         [HttpPost]
-        public Result Link([FromForm] string auth)
+        public Result Link(string auth)
         {
-            //if (auth == null || auth.Length != 9)
-            //    return Result.Failed("分享的文件不存在");
             var List = Ishare.GetDetail(auth);
             if (List.Count > 0)
                 return Result.Success("ok", new { List });
@@ -69,9 +71,8 @@ namespace MoeCloud.Web.Controllers
                 return Result.Failed("分享的文件不存在");
         }
 
-     
         [HttpPost]
-        public Result Delete([FromForm] int shareID, int userID)
+        public Result Delete(int shareID, int userID)
         {
             if (Ishare.Delete(shareID, userID))
                 return Result.Success("ok");
@@ -80,9 +81,8 @@ namespace MoeCloud.Web.Controllers
         }
 
         //change share lock status
-        
         [HttpPost]
-        public Result LockStatus([FromForm] int shareID)
+        public Result LockStatus(int shareID)
         {
             if (Ishare.Swich(shareID))
                 return Result.Success("ok");
@@ -91,9 +91,8 @@ namespace MoeCloud.Web.Controllers
         }
 
         // 管理员获取所有分享的文件信息
-      
         [HttpPost]
-        public Result GetList([FromForm] int userID)
+        public Result GetList(int userID)
         {
             return Result.Success("ok", new { List = Ishare.GetList(userID) });
         }

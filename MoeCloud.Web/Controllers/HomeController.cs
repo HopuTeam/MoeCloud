@@ -8,10 +8,16 @@ namespace MoeCloud.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private ILogic.IFile Ifile { get; }
+        public HomeController(ILogic.IFile Ifile)
         {
-            return View();
+            this.Ifile = Ifile;
         }
 
+        // 前端强类型自行解决
+        public IActionResult Index()
+        {
+            return View(Ifile.GetFiles(HttpContext.Session.GetModel<Model.User>("User").ID, 0).ToList());
+        }
     }
 }

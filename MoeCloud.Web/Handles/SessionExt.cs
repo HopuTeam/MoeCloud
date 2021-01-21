@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace EnterpriseMaterial.Web
+namespace MoeCloud.Web
 {
     public static class SessionExt
     {

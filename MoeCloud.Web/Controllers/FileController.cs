@@ -2,7 +2,6 @@
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using MoeCloud.ILogic;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,15 +12,15 @@ using System.Threading.Tasks;
 namespace MoeCloud.Web.Controllers
 {
     public class FileController : Controller
-    {     
-        private readonly IFile Ifile;
+    {
+        private ILogic.IFile Ifile { get; }
         public IWebHostEnvironment Env { get; }
-
-        public FileController(IWebHostEnvironment env, IFile Ifile)
+        public FileController(IWebHostEnvironment env, ILogic.IFile Ifile)
         {
-            Env = env;          
+            Env = env;
             this.Ifile = Ifile;
         }
+
         public class Result
         {
             public bool State { get; set; }
@@ -46,6 +45,7 @@ namespace MoeCloud.Web.Controllers
                 };
             }
         }
+
         /// <summary>
         /// 查询文件列表
         /// </summary>
@@ -53,15 +53,15 @@ namespace MoeCloud.Web.Controllers
         /// <param name="ParentID">文件父级id</param>
         /// <returns></returns>
         [HttpPost]
-        public Result GetFiles([FromForm] int Userid, int ParentID)
+        public Result GetFiles(int Userid, int ParentID)
         {
             List<Model.File> files = Ifile.GetFiles(Userid, ParentID).ToList();
             //var res = Newtonsoft.Json.JsonConvert.SerializeObject(files);
             if (files.Count > 0)
             {
-                return Result.Success("", files);
+                return Result.Success("ok", files);
             }
-            return Result.Failed("查不到数据");
+            return Result.Failed("文件夹为空");
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace MoeCloud.Web.Controllers
         /// <param name="ParentID"></param>
         /// <returns></returns>
         [HttpPost]
-        public Result GetFile([FromForm] int Userid, int ParentID)
+        public Result GetFile(int Userid, int ParentID)
         {
             return Result.Success("", new { File = Ifile.GetFile(Userid, ParentID) });
         }
@@ -84,7 +84,7 @@ namespace MoeCloud.Web.Controllers
         /// <returns></returns>
         [HttpPost]
         //文件夹上传
-        public IActionResult UpLoadOne([FromForm] int ID, int Pid)
+        public IActionResult UpLoadOne(int ID, int Pid)
         {
             string strPath = string.Empty;
             var files = Request.Form.Files;
@@ -192,17 +192,15 @@ namespace MoeCloud.Web.Controllers
 
         #endregion
 
-
-
         #region 分片上传
         [HttpPost]
-        public ActionResult Upload([FromForm] Model.File view)
+        public ActionResult Upload(Model.File view)
         {
             //string fileName = Request.Form["name"];
             int index = Convert.ToInt32(Request.Form["chunk"]);//当前分块序号
             var guid = Request.Form["guid"];//前端传来的GUID号
             //var dir = $"{ Env.ContentRootPath }/Upload/UserFiles/{1}/aaa/{ guid }/";//临时保存分块的目录
-            var dir = Env.ContentRootPath + @"/Upload/UserFiles"+ view.Path;//临时保存分块的目录
+            var dir = Env.ContentRootPath + @"/Upload/UserFiles" + view.Path;//临时保存分块的目录
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             string filePath = dir + index.ToString();//分块文件名为索引名，更严谨一些可以加上是否存在的判断，防止多线程时并发冲突
@@ -214,7 +212,7 @@ namespace MoeCloud.Web.Controllers
             return Ok(new { error = "ok" });
         }
 
-        public ActionResult Merge([FromForm] Model.File view)//1是模拟用户id
+        public ActionResult Merge(Model.File view)//1是模拟用户id
         {
 
             var uploadDir = Env.ContentRootPath + @"/Upload/UserFiles" + view.Path;//Upload 文件夹          
@@ -253,7 +251,6 @@ namespace MoeCloud.Web.Controllers
         }
         #endregion
 
-
         #region 压缩文件
         /// <summary>
         /// 压缩
@@ -261,7 +258,7 @@ namespace MoeCloud.Web.Controllers
         /// <param name="strFile">源目录,要压缩的文件夹，@"F:\111"</param>
         /// <param name="strZip">压缩包的名字，111.zip</param>
         [HttpPost]
-        public void ZipFile([FromForm] Model.File view)
+        public void ZipFile(Model.File view)
         {
             string StrFile = Env.ContentRootPath + @"\Upload\UserFiles\" + view.Path;//拼接根目录拿到文件          
             string Theparentdirectory = Ifile.GetFile(view.ID, view.ParentID).Path;  //父级路径        
@@ -353,7 +350,6 @@ namespace MoeCloud.Web.Controllers
         }
         #endregion
 
-
         #region 解压缩
         /// <summary>
         /// 
@@ -361,7 +357,7 @@ namespace MoeCloud.Web.Controllers
         /// <param name="TargetFile">待解压的文件路径</param>
         /// <param name="fileDir">解压到的目录</param>
         /// <returns></returns>
-        public string unZipFile([FromForm] Model.File view)
+        public string unZipFile(Model.File view)
         {
             string TargetFile = "";
             string fileDir = "";
@@ -487,8 +483,6 @@ namespace MoeCloud.Web.Controllers
         }
         #endregion
 
-
-
         public IActionResult OnPostDown01()
         {
             var addrUrl = @"C:\Users\黄远佳\Pictures\测试空文件夹\一级1.jpg";
@@ -496,22 +490,15 @@ namespace MoeCloud.Web.Controllers
             return File(stream, "application/vnd.android.package-archive", Path.GetFileName(addrUrl));
         }
 
-
-
         public async Task<IActionResult> OnPostDown02()
         {
             var path = "https://files.cnblogs.com/files/wangrudong003/%E7%89%B9%E4%BB%B701.gif";
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(path); 
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(path)
+            };
             var stream = await client.GetStreamAsync(path);
             return File(stream, "application/vnd.android.package-archive", Path.GetFileName(path));
         }
-
-
-
-
-
-
-
     }
 }
