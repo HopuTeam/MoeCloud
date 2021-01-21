@@ -4,4 +4,27 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="JWT" Version="7.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MySql.Data" Version="8.0.23" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="SharpZipLib" Version="1.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MoeCloud.Server\MoeCloud.Common\MoeCloud.Common.csproj" />
+    <ProjectReference Include="..\MoeCloud.Server\MoeCloud.Data\MoeCloud.Data.csproj" />
+    <ProjectReference Include="..\MoeCloud.Server\MoeCloud.Dto\MoeCloud.Dto.csproj" />
+    <ProjectReference Include="..\MoeCloud.Server\MoeCloud.ILogic\MoeCloud.ILogic.csproj" />
+    <ProjectReference Include="..\MoeCloud.Server\MoeCloud.Logic\MoeCloud.Logic.csproj" />
+    <ProjectReference Include="..\MoeCloud.Server\MoeCloud.Model\MoeCloud.Model.csproj" />
+  </ItemGroup>
+
 </Project>
