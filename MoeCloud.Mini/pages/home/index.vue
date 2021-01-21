@@ -21,13 +21,14 @@
 
 		},
 		methods: {
-
+           
 		},
 		onPullDownRefresh() {
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
-		}
+		},
+		
 	}
 </script>
 

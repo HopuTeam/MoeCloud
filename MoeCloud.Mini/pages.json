@@ -31,6 +31,12 @@
 			"style": {
 				"navigationBarTitleText": "个人信息"			
 			}
+		},
+		{
+			"path": "pages/user/sign",
+			"style": {
+				"navigationBarTitleText": "登录"			
+			}
 		}
 	],
 	// "condition": { //模式配置，仅开发期间生效

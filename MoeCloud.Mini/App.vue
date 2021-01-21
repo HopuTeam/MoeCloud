@@ -14,10 +14,10 @@
 
 <style>
 	/*每个页面公共css */
-	.content {
+	/* .content {
 		background: url(/static/background.png);
 		width: 100%;
 		min-height: 1139rpx;
 		height: 100%;
-	}
+	} */
 </style>

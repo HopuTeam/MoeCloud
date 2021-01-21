@@ -56,12 +56,18 @@
 			}, 1000);
 		},
 		methods: {
-			viewOffice() {
+			viewOffice(current) {
 				uni.setStorageSync('viewUrl', 'http%3A%2F%2Fvideo.ch9.ms%2Fbuild%2F2011%2Fslides%2FTOOL-532T_Sutter.pptx');
 				uni.navigateTo({
 					url: 'office?name=测试.xlsx'
 				});
-			}
+				nui.previewImage({
+					current:,
+					urls:,
+					loop:,
+					indicator:,
+				})
+			}			
 		}
 	}
 </script>
