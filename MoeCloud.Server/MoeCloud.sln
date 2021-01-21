@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoeCloud.Dto", "MoeCloud.Dt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoeCloud.Common", "MoeCloud.Common\MoeCloud.Common.csproj", "{A25A9248-E674-45F3-8D25-053419AD34FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoeCloud.Web", "..\MoeCloud.Web\MoeCloud.Web.csproj", "{8570ACC7-A011-43A5-A94F-9460289B6736}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{A25A9248-E674-45F3-8D25-053419AD34FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A25A9248-E674-45F3-8D25-053419AD34FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A25A9248-E674-45F3-8D25-053419AD34FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8570ACC7-A011-43A5-A94F-9460289B6736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8570ACC7-A011-43A5-A94F-9460289B6736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8570ACC7-A011-43A5-A94F-9460289B6736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8570ACC7-A011-43A5-A94F-9460289B6736}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{EA36C525-DB9D-4CB4-B075-5A148A0C7AC1} = {BC7F6E84-4E6F-4AA1-A7B1-B21BB07AE89E}
 		{F0154A79-BD7C-4B94-9236-EF26CB3B399D} = {BC7F6E84-4E6F-4AA1-A7B1-B21BB07AE89E}
 		{A25A9248-E674-45F3-8D25-053419AD34FF} = {C70AFD47-44C5-45AF-8DF8-5E3AA7081E99}
+		{8570ACC7-A011-43A5-A94F-9460289B6736} = {515E8FCD-A923-4116-8E16-92B3B982D44A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7924A534-9A41-4FF7-80F6-0419267656D9}
