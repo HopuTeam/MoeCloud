@@ -196,7 +196,7 @@ namespace MoeCloud.Web.Controllers
 
         #region 分片上传
         [HttpPost]
-        public ActionResult Upload([FromBody] Model.File view)
+        public ActionResult Upload([FromForm] Model.File view)
         {
             //string fileName = Request.Form["name"];
             int index = Convert.ToInt32(Request.Form["chunk"]);//当前分块序号

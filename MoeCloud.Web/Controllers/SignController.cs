@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EnterpriseMaterial.Web;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,8 @@ namespace MoeCloud.Web.Controllers
             var mod = Iuser.Sign(user);
             if (mod == null)
                 return Result.Failed("用户名或密码错误");
-
+            else
+              HttpContext.Session.SetModel("User", mod);
             return Result.Success($"{mod.Account},欢迎回来", mod);
         }
 
