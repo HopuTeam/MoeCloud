@@ -3,7 +3,7 @@
 		{
 			"path": "pages/cloud/index",
 			"style": {
-				"navigationBarTitleText": "云端文件"			
+				"navigationBarTitleText": "云端文件"
 			}
 		},
 		{
@@ -29,13 +29,13 @@
 		{
 			"path": "pages/user/index",
 			"style": {
-				"navigationBarTitleText": "个人信息"			
+				"navigationBarTitleText": "个人信息"
 			}
 		},
 		{
 			"path": "pages/user/sign",
 			"style": {
-				"navigationBarTitleText": "登录"			
+				"navigationBarTitleText": "登录"
 			}
 		}
 	],
@@ -48,13 +48,13 @@
 	// },
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-				"navigationBarTitleText": "MoeCloud",
-				"navigationBarBackgroundColor": "#F8F8F8",
-				"backgroundColor": "#8A2BE2",
-				"enablePullDownRefresh": true
+		"navigationBarTitleText": "MoeCloud",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#8A2BE2",
+		"enablePullDownRefresh": true
 	},
 	"tabBar": {
-		 "selectedColor": "#6495ED", //选中时的菜单文字颜色
+		"selectedColor": "#6495ED", //选中时的菜单文字颜色
 		"list": [ //Tab列表
 			{
 				// 	"text": "消息",
@@ -67,11 +67,11 @@
 				"iconPath": "static/tabs/cloud.png",
 				"selectedIconPath": "static/tabs/cloud-active.png"
 			}, {
-			// 	"text": "圈子",
-			// 	"pagePath": "pages/org/index",
-			// 	"iconPath": "static/tabs/org.png",
-			// 	"selectedIconPath": "static/tabs/org-active.png"
-			// }, {
+				// 	"text": "圈子",
+				// 	"pagePath": "pages/org/index",
+				// 	"iconPath": "static/tabs/org.png",
+				// 	"selectedIconPath": "static/tabs/org-active.png"
+				// }, {
 				"text": "我的",
 				"pagePath": "pages/user/index",
 				"iconPath": "static/tabs/user.png",

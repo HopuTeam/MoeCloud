@@ -61,12 +61,12 @@
 				uni.navigateTo({
 					url: 'office?name=测试.xlsx'
 				});
-				nui.previewImage({
-					current:,
-					urls:,
-					loop:,
-					indicator:,
-				})
+				// nui.previewImage({
+				// 	current:,
+				// 	urls:,
+				// 	loop:,
+				// 	indicator:,
+				// })
 			}			
 		}
 	}

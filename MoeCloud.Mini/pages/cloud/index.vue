@@ -5,8 +5,7 @@
 			<uni-list-item :to="`./view?id=1&dir=文件夹`" title="文件夹" note="2021-1-15 08:08" showArrow thumb="/static/files/dir.png" />
 			<uni-list-item :to="`./detail?id=1&name=测试.docx`" title="测试.docx" note="2021-1-15 08:08" thumb="/static/files/doc.png" />
 		</uni-list>
-		<uni-fab :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction"
-		 @trigger="trigger" />
+		<uni-fab :pattern="pattern" :content="content" horizontal="right" vertical="bottom" direction="horizontal" @trigger="trigger" />
 		<!-- 提交信息 -->
 		<uni-popup id="dialogInput" ref="dialogInput" type="dialog">
 			<uni-popup-dialog mode="input" title="新建文件夹" placeholder="请输入文件夹名称" @confirm="dialogInputConfirm"></uni-popup-dialog>
@@ -18,9 +17,6 @@
 	export default {
 		data() {
 			return {
-				horizontal: 'right',
-				vertical: 'bottom',
-				direction: 'horizontal',
 				pattern: {
 					color: '#007AFF',
 					backgroundColor: '#FFF',
@@ -41,7 +37,12 @@
 			}
 		},
 		onLoad() {
-
+			if (uni.getStorageSync('token') == "") {
+				console.log('aaa');
+				uni.navigateTo({
+					url: '/pages/user/sign'
+				})
+			}
 		},
 		methods: {
 			trigger(e) {
@@ -97,5 +98,5 @@
 </script>
 
 <style>
-	
+
 </style>
