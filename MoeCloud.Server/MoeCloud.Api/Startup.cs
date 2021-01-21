@@ -26,7 +26,6 @@ namespace MoeCloud.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             //JwT
             JwtHelper.AddJwtServices(services, Configuration);
             services.AddScoped(typeof(JwtHelper));
@@ -37,6 +36,7 @@ namespace MoeCloud.Api
                 x.MultipartBodyLengthLimit = int.MaxValue;
                 x.MultipartHeadersLengthLimit = int.MaxValue;
             });
+            // 跨域服务注入
             services.AddCors(options =>
             {
                 options.AddPolicy("Cors", Tion =>
@@ -46,7 +46,7 @@ namespace MoeCloud.Api
                     Tion.AllowAnyMethod();
                 });
             });
-          
+            // 数据库连接字符串注入
             services.AddDbContext<Data.CoreEntities>(options =>
             {
                 options.UseMySQL(Configuration.GetConnectionString("EFDbConnection"));
@@ -55,6 +55,7 @@ namespace MoeCloud.Api
             {
                 //options.Filters.Add<ErrorFilter>();
             });
+            // BLL注入
             services.AddScoped<ILogic.ICommon, Logic.CommonLogic>();
             services.AddScoped<ILogic.IUser, Logic.UserLogic>();
             services.AddScoped<ILogic.IRole, Logic.RoleLogic>();

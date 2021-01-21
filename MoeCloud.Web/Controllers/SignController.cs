@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoeCloud.Web.Controllers
 {
-    public class AuthController : Controller
+    public class SignController : Controller
     {
         public IActionResult Index()
         {
