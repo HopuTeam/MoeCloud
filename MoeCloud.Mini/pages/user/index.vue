@@ -146,7 +146,7 @@
 
 	.Functionofthecolumn-view {
 		float: left;
-		margin-left: 10px;
+		margin-left: 33px;
 		height: 60px;
 		margin-top: 30px;
 	}
