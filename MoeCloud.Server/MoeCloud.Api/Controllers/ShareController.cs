@@ -45,7 +45,7 @@ namespace MoeCloud.Api.Controllers
         #endregion
 
         // 创建一条分享链接
-        [Authorize]
+      
         [HttpPost]
         public Result Create([FromForm] Model.Share share)
         {
@@ -59,7 +59,7 @@ namespace MoeCloud.Api.Controllers
             return Result.Success("ok", new { shareInfo.Link });
         }
 
-        [AllowAnonymous]
+        
         [HttpPost]
         public Result Link([FromForm] string auth)
         {
@@ -72,7 +72,7 @@ namespace MoeCloud.Api.Controllers
                 return Result.Failed("分享的文件不存在");
         }
 
-        [Authorize]
+       
         [HttpPost]
         public Result Delete([FromForm] int shareID, int userID)
         {
@@ -83,7 +83,7 @@ namespace MoeCloud.Api.Controllers
         }
 
         //change share lock status
-        [Authorize]
+        
         [HttpPost]
         public Result LockStatus([FromForm] int shareID)
         {
@@ -94,7 +94,7 @@ namespace MoeCloud.Api.Controllers
         }
 
         // 管理员获取所有分享的文件信息
-        [Authorize]
+      
         [HttpPost]
         public Result  GetList([FromForm] int userID)
         {
