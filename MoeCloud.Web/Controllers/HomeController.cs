@@ -17,7 +17,9 @@ namespace MoeCloud.Web.Controllers
         // 前端强类型自行解决
         public IActionResult Index()
         {
-            return View(Ifile.GetFiles(HttpContext.Session.GetModel<Model.User>("User").ID, 0).ToList());
+            Ifile.GetFiles(HttpContext.Session.GetModel<Model.User>("User").ID, 0).ToList();
+            return View();
         }
+
     }
 }
