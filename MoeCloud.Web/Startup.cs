@@ -1,14 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MoeCloud.Web
 {
@@ -60,11 +54,13 @@ namespace MoeCloud.Web
             app.UseStaticFiles(new StaticFileOptions
             {
                 //设置不限制content-type
-                ServeUnknownFileTypes = true
-            }) ;
+                ServeUnknownFileTypes = true,
+                //FileProvider = new PhysicalFileProvider(env.ContentRootPath + "/Upload"),
+                //RequestPath = new PathString("/Upload")
+            });
             app.UseMvc(options =>
             {
-                options.MapRoute("Default", "{Controller=Home}/{Action=Index}");
+                options.MapRoute("Default", "{Controller=Sign}/{Action=Index}");
             });
         }
     }
