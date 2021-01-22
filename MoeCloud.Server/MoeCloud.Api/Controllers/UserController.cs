@@ -113,7 +113,7 @@ namespace MoeCloud.Api.Controllers
             return Result.Failed("重置失败，请重试");
         }
 
-        // 获取个人信息(用户端
+        // 获取个人信息(用户端)
         [Authorize]
         [HttpPost]
         public Result GetInfo([FromForm] int ID)

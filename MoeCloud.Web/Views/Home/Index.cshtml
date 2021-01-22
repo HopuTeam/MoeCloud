@@ -1,12 +1,14 @@
 ﻿@using MoeCloud.Model
-@model List<User>
+@model List<File>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
 @section styles {
     <link href="~/webuploader/webuploader.css" rel="stylesheet" />
 }
+<input id="Pid" hidden="hidden"   value="0" />
 <input id="file" hidden="hidden" type="file" name="file" webkitdirectory />
 <button id="sc" onclick="fileupload()">上传文件夹</button>
 <div id="uploader" class="wu-example">
@@ -19,15 +21,10 @@
         </div>
     </div>
     <div class="btns">
-        <div id="picker">
-            选择文件
-            <div class="btns">
-                <div id="picker"></div>
-                <!-- @*<input type="file"  id="picker" name="name" webkitdirec<!-- @*<input type="file"  id="picker" name="name" webkitdirectory>*@ -->
-                <button id="ctlBtn" class="btn btn-default">开始上传</button>
-                <button id="pause" class="btn btn-danger">暂停上传</button>
-            </div>
-        </div>
+        <div id="picker">选择文件</div>
+        <!-- @*<input type="file"  id="picker" name="name" webkitdirectory>*@ -->
+        <button id="ctlBtn" class="btn btn-default">开始上传</button>
+        <button id="pause" class="btn btn-danger">暂停上传</button>
     </div>
 </div>
 @section scripts {
@@ -35,7 +32,7 @@
         $("#upDir").click(function () {
             $("#file").click();
         });
-
+        var Pid = $('#Pid').val();
         var files = [];
         $(document).ready(function () {
             $('#file').change(function () {
@@ -45,12 +42,13 @@
 
         function fileupload() {
             var data = new FormData();
+            data.append('Pid', Pid);
             if (data == "") {
                 alert("不能上传空文件夹！");
             } else {
                 for (var i = 0; i < files.length; i++) {
                     data.append('file', files[i]);
-                }
+                }                            
                 //var path = files[0].webkitRelativePath;
                 $.ajax({
                     type: "post",
@@ -69,11 +67,11 @@
         $(function () {
             var GUID = WebUploader.Base.guid();//一个GUID
             var uploader = WebUploader.create({
-                //swf: '~/webuploader/Uploader.swf',
+                swf: '~/webuploader/Uploader.swf',
                 server: '/File/Upload',
                 //pick: '#picker',
                 pick: {
-                    id: '#upFile',    // 选择文件的按钮
+                    id: '#picker',    // 选择文件的按钮
                     multiple: true,   // 是否多文件上传 默认false
                 },
                 resize: false,
@@ -83,7 +81,7 @@
                 formData: {
                     guid: GUID, //自定义参数，待会儿解释
                     //  ID: 1,  //传用户id
-                    //  Path: '/1/' //传文件虚路径
+                    Pid: Pid
                 }
             });
 
@@ -101,8 +99,8 @@
             });
 
             uploader.on('uploadSuccess', function (file) {
-                console.log(file);                          // ID: 1, Path: '/1/'
-                $.post('/File/Merge', { guid: GUID, fileName: file.name }, function (data) {
+                console.log(file);                          // ID: 1, Pid: 
+                $.post('/File/Merge', { guid: GUID, fileName: file.name, Pid:Pid}, function (data) {
                     $("#uploader .progress-bar").removeClass('progress-bar-striped').removeClass('active').removeClass('progress-bar-info').addClass('progress-bar-success');
                     $("#uploader .state").html("上传成功...");
                 });
