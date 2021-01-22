@@ -4,47 +4,45 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
+@section styles {
     <link href="~/webuploader/webuploader.css" rel="stylesheet" />
-</head>
-<body>
-
-    <div>
-        <input id="file" hidden="hidden" type="file" name="file" webkitdirectory />
-        <button id="sc" onclick="fileupload()">上传文件夹</button>
-
-
-        <div id="uploader" class="wu-example">
-            <!--用来存放文件信息-->
-            <div class="filename"></div>
-            <div class="state"></div>
-            <div class="progress">
-                <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%;min-width:2%">
-                    0%
-                </div>
-            </div>
+}
+<input id="file" hidden="hidden" type="file" name="file" webkitdirectory />
+<button id="sc" onclick="fileupload()">上传文件夹</button>
+<div id="uploader" class="wu-example">
+    <!--用来存放文件信息-->
+    <div class="filename"></div>
+    <div class="state"></div>
+    <div class="progress">
+        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%;min-width:2%">
+            0%
+        </div>
+    </div>
+    <div class="btns">
+        <div id="picker">
+            选择文件
             <div class="btns">
-                <div id="picker">选择文件</div>
-                <!-- @*<input type="file"  id="picker" name="name" webkitdirectory>*@ -->
+                <div id="picker"></div>
+                <!-- @*<input type="file"  id="picker" name="name" webkitdirec<!-- @*<input type="file"  id="picker" name="name" webkitdirectory>*@ -->
                 <button id="ctlBtn" class="btn btn-default">开始上传</button>
                 <button id="pause" class="btn btn-danger">暂停上传</button>
             </div>
         </div>
-
-
     </div>
-
-    @section scripts{ 
+</div>
+@section scripts {
     <script>
+        $("#upDir").click(function () {
+            $("#file").click();
+        });
+
         var files = [];
         $(document).ready(function () {
             $('#file').change(function () {
                 files = this.files;
-            })
+            });
         });
+
         function fileupload() {
             var data = new FormData();
             if (data == "") {
@@ -71,11 +69,11 @@
         $(function () {
             var GUID = WebUploader.Base.guid();//一个GUID
             var uploader = WebUploader.create({
-                swf: '~/webuploader/Uploader.swf',
+                //swf: '~/webuploader/Uploader.swf',
                 server: '/File/Upload',
                 //pick: '#picker',
                 pick: {
-                    id: '#picker',    // 选择文件的按钮         
+                    id: '#upFile',    // 选择文件的按钮
                     multiple: true,   // 是否多文件上传 默认false
                 },
                 resize: false,
@@ -84,10 +82,11 @@
                 duplicate: true,// 重复上传
                 formData: {
                     guid: GUID, //自定义参数，待会儿解释
-                  //  ID: 1,  //传用户id
-                  //  Path: '/1/' //传文件虚路径
+                    //  ID: 1,  //传用户id
+                    //  Path: '/1/' //传文件虚路径
                 }
             });
+
             uploader.on('fileQueued', function (file) {
                 $("#uploader .filename").html("文件名：" + file.name);
                 $("#uploader .state").html('等待上传');
@@ -95,19 +94,20 @@
                 $("#uploader .progress-bar").text('0%');
                 $('#ctlBtn').removeAttr('disabled');
             });
+
             uploader.on('uploadProgress', function (file, percentage) {
                 $("#uploader .progress-bar").width(percentage * 100 + '%');
                 $("#uploader .progress-bar").text(parseInt(percentage * 100) + '%');
             });
+
             uploader.on('uploadSuccess', function (file) {
-                console.log(file);                          // ID: 1, Path: '/1/'       
+                console.log(file);                          // ID: 1, Path: '/1/'
                 $.post('/File/Merge', { guid: GUID, fileName: file.name }, function (data) {
                     $("#uploader .progress-bar").removeClass('progress-bar-striped').removeClass('active').removeClass('progress-bar-info').addClass('progress-bar-success');
                     $("#uploader .state").html("上传成功...");
                 });
-
-
             });
+
             uploader.on('uploadError', function () {
                 $("#uploader .progress-bar").removeClass('progress-bar-striped').removeClass('active').removeClass('progress-bar-info').addClass('progress-bar-danger');
                 $("#uploader .state").html("上传失败...");
@@ -120,6 +120,7 @@
                 $("#uploader .progress-bar").addClass('progress-bar-striped').addClass('active');
                 $("#uploader .state").html("上传中...");
             });
+
             $('#pause').click(function () {
                 uploader.stop(true);
                 $('#ctlBtn').removeAttr('disabled');
@@ -129,11 +130,4 @@
             });
         });
     </script>
-    }
-</body>
-</html>
-
-
-
-
-
+}

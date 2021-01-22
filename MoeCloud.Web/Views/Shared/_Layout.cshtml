@@ -11,31 +11,41 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-md bg-info navbar-dark">
-        <!-- Brand -->
-        <a class="navbar-brand" href="/Home/Index">MoeCloud</a>
-        <!-- Links -->
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link 1</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link 2</a>
-            </li>
-            <!-- Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    Dropdown link
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Link 1</a>
-                    <a class="dropdown-item" href="#">Link 2</a>
-                    <a class="dropdown-item" href="#">Link 3</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#Logout" onclick="Logout()">退出</a>
-            </li>
-        </ul>
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        上传
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#" id="upFile">文件</a>
+                        <a class="dropdown-item" href="#" id="upDir">文件夹</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        新建
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">目录</a>
+                        <a class="dropdown-item" href="#">文件</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/User/Index">个人信息</a>
+                </li>
+                @*<li class="nav-item">
+                        <a class="nav-link" href="/User/Setting">设置</a>
+                    </li>*@
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logout()">退出</a>
+                </li>
+            </ul>
+        </div>
     </nav>
     <br>
     <div class="container">
@@ -49,8 +59,8 @@
     <script src="~/Scripts/jquery-3.5.1.min.js"></script>
     <script src="~/Content/layui/layui.all.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/webuploader/webuploader.html5only.min.js"></script>
     <script src="~/Scripts/copyright.js"></script>
-    <script src="~/webuploader/webuploader.js"></script>
     <script>
         function logout() {
             layer.load(2, { shade: false });
