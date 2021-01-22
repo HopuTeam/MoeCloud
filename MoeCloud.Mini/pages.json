@@ -15,6 +15,10 @@
 			"path": "pages/cloud/detail"
 		},
 		{
+			// 预览
+			"path": "pages/cloud/office"
+		},
+		{
 			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "消息"

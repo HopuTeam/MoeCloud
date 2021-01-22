@@ -77,7 +77,7 @@
 			<navigator class="Setupthe-Thelistof">
 				<se-text class="Setupthe-se">设置</se-text>
 			</navigator>
-			<navigator class="Setupthe-Thelistof">
+			<navigator class="Setupthe-Thelistof" url="../cloud/office">
 				<se-text class="Setupthe-se">用户反馈</se-text>
 			</navigator>
 			<view class="" style="margin-top: 10px;"><button style="color:#FF0000;">退出</button></view>

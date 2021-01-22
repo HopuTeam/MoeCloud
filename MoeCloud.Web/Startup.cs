@@ -28,8 +28,7 @@ namespace MoeCloud.Web
             {
                 options.EnableEndpointRouting = false;
             });
-            //JwT
-          
+            services.AddSession();
             //设置接收文件长度的最大值。
             services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(x =>
             {
@@ -56,7 +55,8 @@ namespace MoeCloud.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseRouting();         
+            app.UseRouting();
+            app.UseSession();
             app.UseStaticFiles(new StaticFileOptions
             {
                 //设置不限制content-type

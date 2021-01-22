@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sigin - MoeCloud</title>
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/sign.css" rel="stylesheet">
+</head>
+<body class="textcenter">
+    <form id="submit" class="form-sign mask">
+        <img class="mb-4" src="/favicon.ico" width="74" height="74" style="margin-top: 12px;">
+        <h1 class="h3 mb-3 font-weight-normal">登录</h1>
+        <label class="sr-only">账号/邮箱</label>
+        <input type="text" class="form-control" id="Account" required placeholder="请输入账号/邮箱">
+        <label class="sr-only">密码</label>
+        <input type="password" class="form-control" id="Password" required placeholder="请输入密码">
+        @*<div class="checkbox mb-3">
+                <label class="scb" style="margin-right:10px;"><input type="checkbox" value="记住账号">&nbsp;记住账号</label>
+                <label class="scb" style="margin-left:10px;"><input type="checkbox" value="自动登录">&nbsp;自动登录</label>
+            </div>*@
+        <div style="margin-top:20px;">
+            <button class="btn btn-primary btn-block" type="submit">登录</button>
+            <button class="btn btn-success btn-block" type="button" id="register">注册</button>
+        </div>
+        <a id="Forget" href="#Forget">找回密码</a>
+        <p class="mt-5 mb-3 text-muted">Copyright &copy; 2014-@DateTime.Now.Year Skilemon</p>
+    </form>
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+    <script src="~/Content/layui/layui.all.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/copyright.js"></script>
+    <script>
+        var winOpen = null;
+
+        $("#submit").submit(function () {
+            layer.load(2, { shade: false });
+            var data = {
+                Account: $("#Account").val(),
+                Password: $("#Password").val(),
+            };
+            $.post("/Sign/Sign", data, function (res) {
+                layer.closeAll('loading');
+                layer.alert(res.message);
+                if (res.state) {
+                    setTimeout(function () {
+                        window.location.href = "/Home/Index";
+                    }, 1500);
+                }
+            });
+            return false;
+        });
+
+        $("#register").click(function () {
+            winOpen = layer.open({
+                type: 2,
+                title: '注册',
+                shadeClose: true,
+                shade: [0.45],
+                area: ['340px', '450px'],
+                content: '/Sign/Register', //iframe的url，no代表不显示滚动条
+            });
+        });
+
+        $("#Forget").click(function () {
+            winOpen = layer.open({
+                type: 2,
+                title: '找回密码',
+                shadeClose: true,
+                shade: [0.45],
+                area: ['340px', '450px'],
+                content: '/Sign/Forget', //iframe的url，no代表不显示滚动条
+            });
+        });
+
+        function closeFrame() {
+            layer.close(winOpen);
+        };
+    </script>
+</body>
+</html>

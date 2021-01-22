@@ -5,7 +5,7 @@
 				<image class="img" src="/static/logo.png" mode="widthFix"></image>
 			</view>
 		</view>
-		<form @submit="onSign" class="form">
+		<view @submit="onSign" class="form">
 			<view class="inputWrapper">
 				<input class="input" v-model="login.account" type="text" placeholder="请输入用户名" />
 			</view>
@@ -13,13 +13,13 @@
 				<input class="input" v-model="login.password" type="password" placeholder="请输入密码" />
 			</view>
 			<view class="loginBtn">
-				<button form-type="submit">登录</button>
-				<!-- <text>注册</text> -->
+				<!-- <button form-type="submit">登录</button> -->
+				<text>登录</text>
 			</view>
 			<view class="forgotBtn">
 				<text>找回密码</text>
 			</view>
-		</form>
+		</view>
 	</view>
 </template>
 
@@ -89,6 +89,7 @@
 	.form {
 		padding: 0 100upx;
 		margin-top: 80px;
+		/* padding: 0 48rpx; */
 	}
 
 	.inputWrapper {

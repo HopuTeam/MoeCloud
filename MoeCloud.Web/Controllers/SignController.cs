@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MoeCloud.Web.Controllers
 {
@@ -52,9 +50,15 @@ namespace MoeCloud.Web.Controllers
             var mod = Iuser.Sign(user);
             if (mod == null)
                 return Result.Failed("用户名或密码错误");
-            else
-              HttpContext.Session.SetModel("User", mod);
-            return Result.Success($"{mod.Account},欢迎回来", mod);
+
+            HttpContext.Session.SetModel("User", mod);
+            var info = new
+            {
+                mod.ID,
+                mod.Account,
+                mod.Email
+            };
+            return Result.Success($"{mod.Account},欢迎回来", info);
         }
 
         [HttpGet]
@@ -84,16 +88,15 @@ namespace MoeCloud.Web.Controllers
             return Result.Failed("数据异常，请重试");
         }
 
-        string code;
         [HttpGet]
         public IActionResult Forget()
         {
             return View();
         }
         [HttpPost]
-        public Result Forget(string Code, string Email, Model.User user)
+        public Result Forget(string Code, Model.User user)
         {
-            if (Code != code)
+            if (Code != HttpContext.Session.GetString("code"))
                 return Result.Failed("验证码错误");
 
             var acc = Iuser.GetUser(0, user.Account, null);
@@ -111,14 +114,14 @@ namespace MoeCloud.Web.Controllers
         public Result SendMail(string Email, Model.User user)
         {
             Random random = new Random();
-            code = Common.Security.MD5Encrypt32(random.Next(0, 9999).ToString()).Substring(random.Next(1, 16), 6).ToUpper();
+            HttpContext.Session.SetString("code", Common.Security.MD5Encrypt32(random.Next(0, 9999).ToString()).Substring(random.Next(1, 16), 6).ToUpper());
 
             var acc = Iuser.GetUser(0, user.Account, null);
             var eml = Iuser.GetUser(0, null, user.Email);
             if (acc == null || eml == null || acc.ID != eml.ID)
                 return Result.Failed("邮箱与账号信息不匹配");
 
-            if (Icommon.SendMail(Email, "找回密码操作", $"尊敬的用户 { user.Account }：<br />您正在进行<span style='color:red;'>找回密码</span>操作！<br />本次操作的验证码是：<span style='color:red;'>{ code }</span>。<br />请注意谨防验证码泄露，保护账号安全！"))
+            if (Icommon.SendMail(Email, "找回密码操作", $"尊敬的用户 { user.Account }：<br />您正在进行<span style='color:red;'>找回密码</span>操作！<br />本次操作的验证码是：<span style='color:red;'>{ HttpContext.Session.GetString("code") }</span>。<br />请注意谨防验证码泄露，保护账号安全！"))
                 return Result.Success("邮件发送成功");
             else
                 return Result.Failed("邮件发送失败");
