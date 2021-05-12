@@ -280,8 +280,9 @@ namespace MoeCloud.Web.Controllers
             string path = lij[1];
             int pid = Ifile.GetFile(ID, view.ParentID).ID;
              path = path.Substring(0, path.Length - 1);
-            if (path[dir.Length - 1] != Path.AltDirectorySeparatorChar)//加上 //才能打开文件夹
-                path += Path.AltDirectorySeparatorChar;
+            //if (path[dir.Length - 1] != Path.AltDirectorySeparatorChar)//加上 //才能打开文件夹
+            // path += Path.AltDirectorySeparatorChar;
+            path= path.Replace(@"\", @"/");
             Model.File aa = new Model.File
             {
                 Name = fileName,
